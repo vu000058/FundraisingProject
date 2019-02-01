@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+     {% block content %}
+        {% if user.is_authenticated %}
+
+
+<head>
+
+
+
+<style>
+
+</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeUrrs</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'tasksapp/navbar.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>#}
+{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>#}
+
+        <title>Fundraiser</title>
+
+</head>
+
+<body onload="viewProgressBar()">
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="nav-link" href="#"><img src="{% static 'tasksapp/logo.png' %}" width="50px"></a>
+        <a class="navbar-brand" href="#">FAM1255 - Community Service Learning</a>
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="{% url 'home' %}">Go Back</a>
+        </li>
+      </ul>
+    </nav>
+
+
+
+    <div class="container-fluid">
+        <div class="row">
+         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+
+                      <li class="nav-item">
+                        <h4 class="nav-link" style="font-size: 16px;">
+                          User: {{ user.username }} <span class="sr-only"></span>
+                        </h4>
+                      </li>
+
+
+                        <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}">
+                          <span data-feather="home"></span>
+                          Dashboard <span class="sr-only"></span>
+                        </a>
+                      </li>
+
+
+                      <li class="nav-item">
+                        <a class="nav-link active" href="/fundraiser">
+                          <span data-feather="home"></span>
+                          Fundraising <span class="sr-only">(current)</span>
+                        </a>
+                      </li>
+
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">
+                          <span data-feather="home"></span>
+                          Logout <span class="sr-only"></span>
+                        </a>
+                      </li>
+
+
+                    </ul>
+                </div>
+     </nav>
+
+
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" ">
+
+
+
+            <h1></h1>
+
+      <form action="/fundraiser/" method="post" >
+          {% csrf_token %}
+    <div class="card">
+        <div class="card-header bg-primary">
+            <h1 class="text-white">Community Fundraising</h1>
+        </div>
+        <div class="container-fluid">
+          <div class="row">
+              <div class="col-md-12">
+                  <span class="badge badge-pill badge-success">Percentage Raised</span> / <span class="badge badge-pill badge-danger">Percentage Left to goal</span>
+              </div>
+          </div>
+          <br />
+  <div class="progress" style="height:50px">
+    <div id="raised" class="progress-bar bg-success" style="width:0%">
+      <strong><span id="raisedText"></span> %</strong>
+    </div>
+    <div id="left" class="progress-bar bg-danger" style="width:0%">
+        <strong><span id="leftText"></span> %</strong>
+    </div>
+  </div>
+
+        <hr/>
+
+            <div class="form-group">
+            <label><strong>Goal</strong></label>
+                {% if not events %}
+                    <input type="text" class="form-control" name="eventGoal" id="eventGoal" placeholder="Goal amount">
+              {% else %}
+                    <br/>{{ goal}}
+                {% endif %}
+            </div>
+
+        <div class="form-group">
+            <label><strong>Fundraiser name</strong></label>
+            <input type="text" class="form-control" name="eventName" id="fundraiserName" placeholder="Fundraiser name">
+        </div>
+          <div class="form-group">
+            <label><strong>Fundraiser Description</strong></label>
+              <textarea rows="3" class="form-control" name="eventDescription" id="eventDescription"></textarea>
+        </div>
+    <div class="form-group">
+        <label><strong>Amount Raised</strong></label>
+        <input type="text" class="form-control" name="eventAmount" id="amountRaised" value="10">
+    </div>
+
+    </div>
+
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary" onclick="updateProgressBar()">Update progress</button>
+        </div>
+</div>
+
+  </form>
+
+
+<br>
+<script>
+
+    var totalRaised = {{ totalFunds }};
+    var totalGoal = {{ goal }};
+
+    console.log(totalRaised);
+    console.log(totalGoal);
+
+    function viewProgressBar(){
+        var total = (totalRaised / totalGoal) * 100;
+        var totalLeft = ((totalGoal - totalRaised) / totalGoal) * 100;
+
+        var raisedElement = document.getElementById("raised");
+        raisedElement.style.width = total + "%";
+        var leftElement = document.getElementById("left");
+        leftElement.style.width = totalLeft + "%";
+
+        //update text
+        var raisedTextElement = document.getElementById("raisedText");
+        raisedTextElement.innerText = total.toFixed(1);
+        var leftTextElement = document.getElementById("leftText");
+        leftTextElement.innerText = totalLeft.toFixed(1);
+    }
+
+    function updateProgressBar(){
+        // store user input from Amount Raised textbox
+        var amountRaisedElement = document.getElementById("amountRaised");
+
+        if((totalRaised < totalGoal) && amountRaisedElement.value.length>0){
+            totalRaised = totalRaised + parseFloat(amountRaisedElement.value);
+
+            var total = (totalRaised / totalGoal) * 100;
+            var totalLeft = ((totalGoal - totalRaised) / totalGoal) * 100;
+
+            var raisedElement = document.getElementById("raised");
+            raisedElement.style.width = total + "%";
+            var leftElement = document.getElementById("left");
+            leftElement.style.width = totalLeft + "%";
+
+            //update text
+            var raisedTextElement = document.getElementById("raisedText");
+            raisedTextElement.innerText = total.toFixed(1);
+            var leftTextElement = document.getElementById("leftText");
+            leftTextElement.innerText = totalLeft.toFixed(1);
+        }
+    }
+</script>
+
+
+      <div class="container-fluid">
+      <h1>Donations</h1>
+
+ <table class="table table-bordered table-hover" id="events">
+      <tr>
+           <thead class="thead-dark">
+        <th>Name</th>
+        <th>Description</th>
+        <th>Amount</th>
+        <th>Date Created</th>
+           </thead>
+      </tr>
+      {% for event in events %}
+        <tr>
+          <td>{{event.eventName}}</td>
+          <td>{{event.eventDescription}}</td>
+            <td>{{event.eventAmount}}</td>
+          <td>{{event.eventCreated}}</td>
+        </tr>
+    {% endfor %}
+    </table>
+      </div>
+
+</main>
+    </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>
+        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
+    </script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+{#    <script src="../../dist/js/bootstrap.min.js"></script>#}
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+        feather.replace()
+    </script>
+
+
+  {% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+
+        {% endif %}
+{% endblock %}
+</body>
+</html>
