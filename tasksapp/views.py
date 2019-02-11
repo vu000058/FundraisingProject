@@ -7,48 +7,21 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.urls import reverse
 import uuid
+
+
+task_statuses = ["Unassigned", "Assigned", "Ongoing", "On Hold", "Cancelled", "Finished"]
 # request where the parts of the database from models.py are used
 #first if for the GET that orders all the tasks by due date, default page
 #elif has the POST where it creates the user input and stores it in the db
+
 def index(request):
     if request.method == 'GET':
         tasks = Task.objects.all().order_by('due_date')
-        return render(request, "index.html", {'tasks': tasks})
+        return render(request, "index.html", {'tasks': tasks, 'statuses': task_statuses})
 
-    elif request.method == 'POST':
-        eventName = request.POST.get("eventName","")
-        taskName = request.POST.get("task","")
-        taskDesc = request.POST.get("desc","")
-        assignedTo = request.POST.get("assignee","")
-        date = request.POST.get("duedate","")
-        reporterName = request.POST.get("reporter","")
-        state = request.POST.get("status","")
-        record = Task(event=eventName, name=taskName, description=taskDesc, assignee=assignedTo, duedate = date,
-                    reporter = reporterName, status = state,
-                    updatedate = timezone.now())
-        record.save()
-        return redirect('/')
-#delete a task
-def delete(request, taskId):
-    record = Task(id=taskId)
-    record.delete()
-    return redirect('/')
-#edit the tasks
-def edit(request, taskId):
-    task = Task.objects.get(id=taskId)
-    return render(request, "update.html", {'task':task})
-#when you go into the edit, the update is done here
-def update(request, taskId):
-    task = Task.objects.get(id=taskId)
-    task.event = request.POST.get("eventName","")
-    task.name = request.POST.get("task","")
-    task.description = request.POST.get("desc","")
-    task.assignee = request.POST.get("assignee","")
-    task.duedate = request.POST.get("duedate","")
-    task.reporter = request.POST.get("reporter","")
-    task.status = request.POST.get("status","")
-    task.updatedate = timezone.now()
-    task.save()
+
+def delete_task(request, id):
+    Task.objects.get(id=id).delete()
     return redirect('/')
 
 
@@ -56,7 +29,14 @@ def add_edit_task(request, id=0):
     if request.method == "GET":
         task = Task.objects.get(id=id) if id > 0 else Task()
         sections = Section.objects.all()
-        return render(request, "update.html", {'task': task, 'sections': sections})
+        users = User.objects.all()
+        print(task.__dict__)
+        return render(request, "update.html", {
+            'task': task,
+            'sections': sections,
+            'users': users,
+            'taskId': id,
+            'statuses': task_statuses})
     else:
         event = request.POST.get("eventName", "")
         name = request.POST.get("task", "")
@@ -65,6 +45,7 @@ def add_edit_task(request, id=0):
         due_date = request.POST.get("duedate", "")
         # creator = request.POST.get("reporter", "")
         status = request.POST.get("status", "")
+        section = Section.objects.get(id=request.POST.get("section"))
         update_date = timezone.now()
 
         if id > 0:
@@ -73,8 +54,7 @@ def add_edit_task(request, id=0):
             task.name = name
             task.description = description
             # task.assignee = request.POST.get("assignee", "")
-            task.due_date = assignee
-            # task.creator = request.user
+            task.due_date = due_date
             task.status = status
             task.update_date = timezone.now()
             task.save()
@@ -83,7 +63,10 @@ def add_edit_task(request, id=0):
                 event=event,
                 name=name,
                 description=description,
-                status=status
+                status=status,
+                creator=request.user,
+                section=section,
+                due_date=due_date
             )
             task.save()
 
@@ -96,7 +79,6 @@ def search(request):
     eventName = request.POST.get("eventName")
     taskName = request.POST.get("task")
     assignedTo = request.POST.get("assignee")
-    date = request.POST.get("duedate")
     state = request.POST.get("status")
     objects = Task.objects.all()
     if eventName.strip():
@@ -107,7 +89,7 @@ def search(request):
         objects = objects.filter(assignee__icontains=assignedTo)
     if state.strip():
         objects = objects.filter(status=state)
-    return render(request, "index.html", {'tasks':objects.order_by('duedate')})
+    return render(request, "index.html", {'tasks': objects.order_by('due_date'), 'statuses': task_statuses})
 
 
 def sections(request):
@@ -133,7 +115,7 @@ def delete_section(request, id):
 
 
 def users(request):
-    return render(request, "users.html", {'users': UserProfile.objects.all()})
+    return render(request, "users.html", {'user_profiles': UserProfile.objects.all()})
 
 
 def goals(request):
@@ -220,4 +202,52 @@ def activate(request):
     user.is_active = True
     user.save()
     return render(request, 'accountactivation.html')
+
+
+def create_test_users():
+    for num in range(1, 5):
+        try:
+            user = User(
+                username='student' + str(num),
+                is_staff=True,
+                is_active=True
+            )
+            user.set_password('password')
+            user.save()
+            profile = UserProfile(name='Student ' + str(num), user=user)
+            profile.save()
+        except Exception:
+            pass
+
+    try:
+        user = User(
+            username='instructor',
+            is_staff=True,
+            is_active=True
+        )
+        user.set_password('password')
+        user.save()
+        profile = UserProfile(name='Student ' + str(num), user=user, is_instructor=True)
+        profile.save()
+    except Exception:
+        pass
+
+
+def activate_user(request, id):
+    user = UserProfile.objects.get(id=id).user
+    user.is_active = True
+    user.save()
+
+    return redirect('/users')
+
+
+def deactivate_user(request, id):
+    user = UserProfile.objects.get(id=id).user
+    user.is_active = False
+    user.save()
+
+    return redirect('/users')
+
+create_test_users()
+
 

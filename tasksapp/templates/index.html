@@ -138,6 +138,12 @@
                         </h4>
                       </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{% url 'users' %}">
+                          <span data-feather="home"></span>
+                          Users <span class="sr-only"></span>
+                        </a>
+                      </li>
                       <li class="nav-item">
                         <a class="nav-link active" href="{% url 'index' %}">
                           <span data-feather="home"></span>
@@ -192,10 +198,12 @@
           <td style="text-align: right;">Status :</td>
               <td>
                 <select name="status">
-                  <option value=""></option>
-                  <option value="Assigned">Assigned</option>
-                  <option value="Ongoing">Ongoing</option>
-                  <option value="Finished">Finished</option>
+                    <option value="">All</option>
+                      {% for status in statuses %}
+                          <option value="{{ status }}">
+                              {{ status }}
+                          </option>
+                      {% endfor %}
                 </select>
               </td>
           <td><button class="button" type="submit">Search</button></td>
@@ -224,8 +232,8 @@
           <td>{{task.creator}}</td>
           <td>{{task.update_date}}</td>
           <td>
-            <a href="{% url 'editTask' task.id %}" class="button">Edit</a>
-            <a href="{% url 'removeTask' task.id %}" class="button">Delete</a>
+            <a href="{% url 'addEditTask' task.id %}" class="button">Edit</a>
+            <a href="{% url 'deleteTask' task.id %}" class="button">Delete</a>
           </td>
         </tr>
     {% endfor %}
