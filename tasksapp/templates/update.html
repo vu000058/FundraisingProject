@@ -173,7 +173,13 @@
             <td style="text-align: right;">Due Date</td>
             <td><input id="duedate" name="duedate" type="date" required/></td>
             <td style="text-align: right;">Delegater </td>
-            <td><input id="reporter" name="reporter" type="text" maxlength="30" /></td>
+            <td>
+                <select id="delegater" name="delegater">
+                <option value="">Instructor</option>
+                <option value="Assigned">Chair of the meeting</option>
+                <option value="Ongoing">Sub-group lead</option>
+              </select>
+            </td>
           </tr>
           <tr>
             <td style="text-align: right;">Status </td>
@@ -183,6 +189,7 @@
                 <option value="Assigned">Assigned</option>
                 <option value="Ongoing">On Going</option>
                   <option value="Ongoing">On Hold</option>
+                  <option value="Finished">Cancelled</option>
                 <option value="Finished">Finished</option>
               </select>
             </td>
