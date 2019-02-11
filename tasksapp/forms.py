@@ -26,6 +26,10 @@ class SectionForm(forms.Form):
     year = forms.ChoiceField(choices=YEAR_CHOICES, label="Year", widget=forms.Select(), required=True)
     term = forms.ChoiceField(choices=TERM_CHOICES, label="Term",  widget=forms.Select(), required=True)
 
+    def __init__(self, *args, **kwargs):
+        super(SectionForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
 class RegistrationForm(forms.Form):
     email = forms.EmailField()

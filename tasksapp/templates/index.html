@@ -1,193 +1,323 @@
-<!DOCTYPE html>
+{#<!DOCTYPE html>#}
+{##}
+{##}
+{#<html>#}
+{##}
+{#     {% block content %}#}
+{#        {% if user.is_authenticated %}#}
+{#        User: {{ user.username }}#}
+{##}
+{#{% load static %}#}
+{#<head>#}
+{#<style>#}
+{#        body {#}
+{#            font-family: Arial, Helvetica, sans-serif;#}
+{#        }#}
+{#        header {#}
+{#            background-color: CadetBlue;#}
+{#            padding: 1px;#}
+{#            text-align: center;#}
+{#            font-size: 15px;#}
+{#            color: white;#}
+{#        }#}
+{#        .container {#}
+{#            background-color: lightgrey;#}
+{#            padding: 20px;#}
+{#        }#}
+{#        #tasks {#}
+{#            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;#}
+{#            /*border-collapse: collapse;*/#}
+{#            width: 100%;#}
+{#        }#}
+{##}
+{#        #tasks td, #tasks th {#}
+{#            border: 1px solid #ddd;#}
+{#            padding: 5px;#}
+{#        }#}
+{##}
+{#        #tasks tr:nth-child(even){background-color: lightgrey;}#}
+{##}
+{#        #tasks th {#}
+{#            padding-top: 10px;#}
+{#            padding-bottom: 10px;#}
+{#            text-align: left;#}
+{#            background-color: dodgerblue;#}
+{#            color: white;#}
+{#        }#}
+{##}
+{#        .content {#}
+{#            background-color: white;#}
+{#            width: 80%;#}
+{#            border: 1px solid #888;#}
+{#            padding: 20px;#}
+{#            margin: auto;#}
+{#        }#}
+{##}
+{#        .modal {#}
+{#            left: 0;#}
+{#            top: 0;#}
+{#            display: none;#}
+{#            width: 100%;#}
+{#            height: 100%;#}
+{#            overflow: auto;#}
+{#            background-color: rgb(0,0,0);#}
+{#            background-color: rgba(0,0,0,0.4);#}
+{#            padding-top: 100px;#}
+{#            position: fixed;#}
+{#            z-index: 1;#}
+{#        }#}
+{#        .exit {#}
+{#            font-weight: bold;#}
+{#            color: black;#}
+{#            font-size: 30px;#}
+{#            float: right;#}
+{##}
+{#        }#}
+{##}
+{#        .exit:hover,#}
+{#        .exit:focus {#}
+{#            cursor: pointer;#}
+{#            text-decoration: none;#}
+{#            color: #000;#}
+{#        }#}
+{#        input:required:focus {#}
+{#          border: 1px solid red;#}
+{#          outline: none;#}
+{#        }#}
+{#        .star{color: red}#}
+{#        .button{#}
+{#          background-color: grey;#}
+{#          color: white;#}
+{#          padding: 0.2em 0.5em;#}
+{#          text-decoration: none;#}
+{#          text-transform: uppercase;#}
+{#        }#}
+{#        .button:hover {#}
+{#          background-color: #555;#}
+{#        }#}
+{##}
+{#        .sidebar-sticky {#}
+{#            padding: 48px 15px 0px 15px;#}
+{#        }#}
+{##}
+{#    .nav-link {#}
+{#        padding: 8px 16px 8px 16px;#}
+{#        font-size: 16px;#}
+{#    }#}
+{##}
+{##}
+{##}
+{##}
+{#  </style>#}
+{#    <meta charset="utf-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>CodeUrrs</title>#}
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">#}
+{#    <link rel="stylesheet" href="{% static 'tasksapp/navbar.css' %}">#}
+{#</head>#}
+{##}
+{#<body>#}
+{#    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">#}
+{#  <a class="nav-link" href="#"><img src="{% static 'tasksapp/logo.png' %}" width="50px"></a>#}
+{#        <a class="navbar-brand" href="#" style="font-size: 18px">FAM1255 - Community Service Learning</a>#}
+{#      <ul class="navbar-nav px-3">#}
+{##}
+{#      </ul>#}
+{#    </nav>#}
+{##}
+{##}
+{##}
+{#    <div class="container-fluid">#}
+{#        <div class="row">#}
+{#         <nav class="col-md-2 d-none d-md-block bg-light sidebar">#}
+{#                <div class="sidebar-sticky">#}
+{#                <ul class="nav flex-column">#}
+{#                      <li class="nav-item">#}
+{#                        <h4 class="nav-link">#}
+{#                          User: {{ user.username }} <span class="sr-only"></span>#}
+{#                        </h4>#}
+{#                      </li>#}
+{##}
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link active" href="{% url 'users' %}">#}
+{#                          <span data-feather="home"></span>#}
+{#                          Users <span class="sr-only"></span>#}
+{#                        </a>#}
+{#                      </li>#}
+{#                      <li class="nav-item">#}
+{#                        <a class="nav-link active" href="{% url 'index' %}">#}
+{#                          <span data-feather="home"></span>#}
+{#                          Tasks <span class="sr-only">(current)</span>#}
+{#                        </a>#}
+{#                      </li>#}
+{##}
+{##}
+{#                      <li class="nav-item">#}
+{#                        <a class="nav-link" href="/goals">#}
+{#                          <span data-feather="home"></span>#}
+{#                          Fundraising Goals <span class="sr-only"></span>#}
+{#                        </a>#}
+{#                      </li>#}
+{##}
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link" href="/sections">#}
+{#                          <span data-feather="home"></span>#}
+{#                          Sections <span class="sr-only"></span>#}
+{#                        </a>#}
+{#                      </li>#}
+{##}
+{#                      <li class="nav-item">#}
+{#                        <a class="nav-link" href="{% url 'logout' %}">#}
+{#                          <span data-feather="home"></span>#}
+{#                          Logout <span class="sr-only"></span>#}
+{#                        </a>#}
+{#                      </li>#}
+{##}
+{##}
+{#                    </ul>#}
+{#                </div>#}
+{#     </nav>#}
+{##}
+{##}
+{##}
+{#<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">#}
+{##}
+{##}
+{##}
+{#            </main>#}
+{#        </div>#}
+{#    </div>#}
+{#    <!-- Bootstrap core JavaScript#}
+{#    ================================================== -->#}
+{#    <!-- Placed at the end of the document so the pages load faster -->#}
+{#    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>#}
+{#    <script>#}
+{#        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')#}
+{#    </script>#}
+{#    <script src="../../assets/js/vendor/popper.min.js"></script>#}
+{#    <script src="../../dist/js/bootstrap.min.js"></script>#}
+{##}
+{#    <!-- Icons -->#}
+{#    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>#}
+{#    <script>#}
+{#        feather.replace()#}
+{#    </script>#}
+{##}
+{#    <script type="text/javascript">#}
+{#      var modal = document.getElementById('descModal');#}
+{#      document.getElementsByClassName("exit")[0].onclick = function() {#}
+{#            modal.style.display = "none";#}
+{#      }#}
+{#      window.onclick = function(event) {#}
+{#        if (event.target == modal) {#}
+{#            modal.style.display = "none";#}
+{#        }#}
+{#      }#}
+{##}
+{#      function showDesc(eventName, desc, name){#}
+{#          document.getElementById("taskEventModel").innerHTML="<b>Event Name: </b>"+eventName;#}
+{#          document.getElementById("taskNameModel").innerHTML="<b>Task Name: </b>"+name;#}
+{#          document.getElementById("taskDescModel").innerHTML="<b>Task Description: </b>"+ "<br/><br/>" + desc;#}
+{#          modal.style.display = "block";#}
+{#      }#}
+{##}
+{#      function resetForm(){#}
+{#        document.getElementById("eventName").value="";#}
+{#        document.getElementById("task").value="";#}
+{#        document.getElementById("duedate").value="";#}
+{#        document.getElementById("assignee").value="";#}
+{#        document.getElementById("desc").value="";#}
+{#        document.getElementById("reporter").value="";#}
+{#        document.getElementById("status").value="";#}
+{#      }#}
+{#  </script>#}
+{##}
+{#  {% else %}#}
+{##}
+{#            <head>#}
+{#    <style>#}
+{##}
+{#        /* Show it is fixed to the top */#}
+{#body {#}
+{#  min-height: 75rem;#}
+{#  padding-top: 4.5rem;#}
+{#}#}
+{##}
+{#        .container {#}
+{#            text-align: center;#}
+{#        }#}
+{##}
+{##}
+{#        .login_btn {#}
+{#            padding: 10px 20px 10px 20px;#}
+{#            border: solid black 1px;#}
+{#            border-radius: 5px;#}
+{#        }#}
+{##}
+{##}
+{#        .login_btn:hover {#}
+{##}
+{#            text-decoration: none;!important;#}
+{#        }#}
+{##}
+{#        .login_msg {#}
+{#            margin-bottom: 40px;#}
+{#        }#}
+{##}
+{#        a.navbar-brand {#}
+{#            font-size: 1.25rem;!important;#}
+{#        }#}
+{#    </style>#}
+{##}
+{#             <meta charset="utf-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>CodeUrrs</title>#}
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">#}
+{#    <link rel="stylesheet" href="{% static 'tasksapp/navbar.css' %}">#}
+{##}
+{#            </head>#}
+{##}
+{#                <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">#}
+{#      <a class="navbar-brand" href="#">FAM - 1255 Community Service Learning</a>#}
+{#      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">#}
+{#        <span class="navbar-toggler-icon"></span>#}
+{#      </button>#}
+{#      <div class="collapse navbar-collapse" id="navbarCollapse">#}
+{##}
+{#      </div>#}
+{#    </nav>#}
+{##}
+{##}
+{#<main role="main" class="container">#}
+{#      <div class="jumbotron">#}
+{#  <p class="login_msg">You are not logged in</p>#}
+{#  <a href="{% url 'login' %}" class="login_btn">login</a>#}
+{##}
+{##}
+{#      </div>#}
+{#    </main>#}
+{##}
+{##}
+{##}
+{#{% endif %}#}
+{#{% endblock %}#}
+{#    </body>#}
+{#</html>#}
 
 
-<html>
 
-     {% block content %}
-        {% if user.is_authenticated %}
-        User: {{ user.username }}
+{% extends 'base.html' %}
 
-{% load static %}
-<head>
-<style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        header {
-            background-color: CadetBlue;
-            padding: 1px;
-            text-align: center;
-            font-size: 15px;
-            color: white;
-        }
-        .container {
-            background-color: lightgrey;
-            padding: 20px;
-        }
-        #tasks {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-            /*border-collapse: collapse;*/
-            width: 100%;
-        }
+{% block content %}
 
-        #tasks td, #tasks th {
-            border: 1px solid #ddd;
-            padding: 5px;
-        }
-
-        #tasks tr:nth-child(even){background-color: lightgrey;}
-
-        #tasks th {
-            padding-top: 10px;
-            padding-bottom: 10px;
-            text-align: left;
-            background-color: dodgerblue;
-            color: white;
-        }
-
-        .content {
-            background-color: white;
-            width: 80%;
-            border: 1px solid #888;
-            padding: 20px;
-            margin: auto;
-        }
-
-        .modal {
-            left: 0;
-            top: 0;
-            display: none;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0,0,0);
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 100px;
-            position: fixed;
-            z-index: 1;
-        }
-        .exit {
-            font-weight: bold;
-            color: black;
-            font-size: 30px;
-            float: right;
-
-        }
-
-        .exit:hover,
-        .exit:focus {
-            cursor: pointer;
-            text-decoration: none;
-            color: #000;
-        }
-        input:required:focus {
-          border: 1px solid red;
-          outline: none;
-        }
-        .star{color: red}
-        .button{
-          background-color: grey;
-          color: white;
-          padding: 0.2em 0.5em;
-          text-decoration: none;
-          text-transform: uppercase;
-        }
-        .button:hover {
-          background-color: #555;
-        }
-
-        .sidebar-sticky {
-            padding: 48px 15px 0px 15px;
-        }
-
-    .nav-link {
-        padding: 8px 16px 8px 16px;
-        font-size: 16px;
-    }
-
-
-
-
-  </style>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeUrrs</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'tasksapp/navbar.css' %}">
-</head>
-
-<body>
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="nav-link" href="#"><img src="{% static 'tasksapp/logo.png' %}" width="50px"></a>
-        <a class="navbar-brand" href="#" style="font-size: 18px">FAM1255 - Community Service Learning</a>
-      <ul class="navbar-nav px-3">
-
-      </ul>
-    </nav>
-
-
-
-    <div class="container-fluid">
-        <div class="row">
-         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-<ul class="nav flex-column">
-                      <li class="nav-item">
-                        <h4 class="nav-link">
-                          User: {{ user.username }} <span class="sr-only"></span>
-                        </h4>
-                      </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'users' %}">
-                          <span data-feather="home"></span>
-                          Users <span class="sr-only"></span>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link active" href="{% url 'index' %}">
-                          <span data-feather="home"></span>
-                          Tasks <span class="sr-only">(current)</span>
-                        </a>
-                      </li>
-
-
-                      <li class="nav-item">
-                        <a class="nav-link" href="/goals">
-                          <span data-feather="home"></span>
-                          Fundraising Goals <span class="sr-only"></span>
-                        </a>
-                      </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/sections">
-                          <span data-feather="home"></span>
-                          Sections <span class="sr-only"></span>
-                        </a>
-                      </li>
-
-                      <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">
-                          <span data-feather="home"></span>
-                          Logout <span class="sr-only"></span>
-                        </a>
-                      </li>
-
-
-                    </ul>
-                </div>
-     </nav>
-
-
-
-<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-       <h1>Fundraising Tasks Management</h1>
+         <h1>Fundraising Tasks Management</h1>
 
     <h3>Tasks</h3><hr/>
-    <a href="/addedit/0" class="button">Add Task</a>
+    <a href="/addedit/0" class="btn btn-primary">Add Task</a>
+
     <form action="/search/" method="post" >
         {% csrf_token %}
-      <table>
+      <table class="table">
         <tr>
           <td style="text-align: right;">Event Name </td>
           <td colspan="3"><input id="eventName" name="eventName" type="text" maxlength="100"/></td>
@@ -206,21 +336,21 @@
                       {% endfor %}
                 </select>
               </td>
-          <td><button class="button" type="submit">Search</button></td>
-          <td><a class="button" href="/">Show All</a></td>
+          <td><button class="btn btn-default" type="submit">Search</button></td>
+          <td><a class="btn btn-default" href="/">Show All</a></td>
           </tr>
       </table>
     </form>
-    <table id="tasks">
+    <table id="tasks" class="table">
       <tr>
-        <th>Event Name</th>
-        <th>Task</th>
-        <th>Assigned To</th>
-        <th>Status</th>
-        <th>Due Date</th>
-        <th>Created By</th>
-        <th>Updated On</th>
-        <th>Actions</th>
+        <th scope="col">Event Name</th>
+        <th scope="col">Task</th>
+        <th scope="col">Assigned To</th>
+        <th scope="col">Status</th>
+        <th scope="col">Due Date</th>
+        <th scope="col">Created By</th>
+        <th scope="col">Updated On</th>
+        <th scope="col">Actions</th>
       </tr>
       {% for task in tasks %}
         <tr>
@@ -232,8 +362,8 @@
           <td>{{task.creator}}</td>
           <td>{{task.update_date}}</td>
           <td>
-            <a href="{% url 'addEditTask' task.id %}" class="button">Edit</a>
-            <a href="{% url 'deleteTask' task.id %}" class="button">Delete</a>
+            <a href="{% url 'addEditTask' task.id %}" class="btn btn-info">Edit</a>
+            <a href="{% url 'deleteTask' task.id %}" class="btn btn-danger">Delete</a>
           </td>
         </tr>
     {% endfor %}
@@ -249,123 +379,5 @@
       </div>
     </div>
 
-
-            </main>
-        </div>
-    </div>
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script>
-        window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')
-    </script>
-    <script src="../../assets/js/vendor/popper.min.js"></script>
-{#    <script src="../../dist/js/bootstrap.min.js"></script>#}
-
-    <!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-        feather.replace()
-    </script>
-
-    <script type="text/javascript">
-      var modal = document.getElementById('descModal');
-      document.getElementsByClassName("exit")[0].onclick = function() {
-            modal.style.display = "none";
-      }
-      window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-      }
-
-      function showDesc(eventName, desc, name){
-          document.getElementById("taskEventModel").innerHTML="<b>Event Name: </b>"+eventName;
-          document.getElementById("taskNameModel").innerHTML="<b>Task Name: </b>"+name;
-          document.getElementById("taskDescModel").innerHTML="<b>Task Description: </b>"+ "<br/><br/>" + desc;
-          modal.style.display = "block";
-      }
-
-      function resetForm(){
-        document.getElementById("eventName").value="";
-        document.getElementById("task").value="";
-        document.getElementById("duedate").value="";
-        document.getElementById("assignee").value="";
-        document.getElementById("desc").value="";
-        document.getElementById("reporter").value="";
-        document.getElementById("status").value="";
-      }
-  </script>
-
-  {% else %}
-
-            <head>
-    <style>
-
-        /* Show it is fixed to the top */
-body {
-  min-height: 75rem;
-  padding-top: 4.5rem;
-}
-
-        .container {
-            text-align: center;
-        }
-
-
-        .login_btn {
-            padding: 10px 20px 10px 20px;
-            border: solid black 1px;
-            border-radius: 5px;
-        }
-
-
-        .login_btn:hover {
-
-            text-decoration: none;!important;
-        }
-
-        .login_msg {
-            margin-bottom: 40px;
-        }
-
-        a.navbar-brand {
-            font-size: 1.25rem;!important;
-        }
-    </style>
-
-             <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeUrrs</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'tasksapp/navbar.css' %}">
-
-            </head>
-
-                <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="#">FAM - 1255 Community Service Learning</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-
-      </div>
-    </nav>
-
-
-<main role="main" class="container">
-      <div class="jumbotron">
-  <p class="login_msg">You are not logged in</p>
-  <a href="{% url 'login' %}" class="login_btn">login</a>
-
-
-      </div>
-    </main>
-
-
-
-{% endif %}
 {% endblock %}
-    </body>
-</html>
+
