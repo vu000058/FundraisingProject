@@ -141,15 +141,22 @@
                       <li class="nav-item">
                         <a class="nav-link active" href="{% url 'index' %}">
                           <span data-feather="home"></span>
-                          Dashboard <span class="sr-only">(current)</span>
+                          Tasks <span class="sr-only">(current)</span>
                         </a>
                       </li>
 
 
                       <li class="nav-item">
-                        <a class="nav-link" href="/fundraiser">
+                        <a class="nav-link" href="/goals">
                           <span data-feather="home"></span>
-                          Fundraising <span class="sr-only"></span>
+                          Fundraising Goals <span class="sr-only"></span>
+                        </a>
+                      </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/sections">
+                          <span data-feather="home"></span>
+                          Sections <span class="sr-only"></span>
                         </a>
                       </li>
 
@@ -170,47 +177,8 @@
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
        <h1>Fundraising Tasks Management</h1>
 
-    <h3>Create Task</h3><hr/>
-    <div class="container">
-      <form action="/" method="post">
-        {% csrf_token %}
-        <table width="50%">
-          <tr>
-             <td style="text-align: right;">Event</td>
-             <td colspan="3"><input id="eventName" name="eventName" type="text" maxlength="100" required/></td>
-          </tr>
-          <tr>
-            <td style="text-align: right;">Task Name <span class="star"></span></td>
-            <td><input id="task" name="task" type="text" maxlength="100" required/></td>
-            <td style="text-align: right;">Assignee: </td>
-            <td><input id="assignee" name="assignee" type="text" maxlength="100" /></td>
-          </tr>
-          <tr>
-            <td style="text-align: right;">Description </td>
-            <td><textarea rows="4" cols="50" name="desc" id="desc"></textarea></td>
-          </tr>
-          <tr>
-            <td style="text-align: right;">Due Date</td>
-            <td><input id="duedate" name="duedate" type="date" required/></td>
-            <td style="text-align: right;">Delegater </td>
-            <td><input id="reporter" name="reporter" type="text" maxlength="35" /></td>
-          </tr>
-          <tr>
-            <td style="text-align: right;">Status </td>
-            <td>
-              <select id="status" name="status">
-                <option value=""></option>
-                <option value="Assigned">Assigned</option>
-                <option value="Ongoing">Ongoing</option>
-                <option value="Finished">Finished</option>
-              </select>
-            </td>
-          </tr>
-          <tr><td/><td/><td><button onclick="resetForm()" class="button">Clear Form</button></td><td><button type="submit" class="button">Add Task</button></td></tr>
-        </table>
-      </form>
-    </div>
-    <h3>Browse Tasks</h3><hr/>
+    <h3>Tasks</h3><hr/>
+    <a href="/addedit/0" class="button">Add Task</a>
     <form action="/search/" method="post" >
         {% csrf_token %}
       <table>
@@ -252,9 +220,9 @@
           <td><a href="#" target="_self" onClick="showDesc('{{task.event}}', '{{task.description}}', '{{task.name}}')">{{task.name}}</a></th>
           <td>{{task.assignee}}</td>
           <td>{{task.status}}</td>
-          <td>{{task.duedate}}</td>
-          <td>{{task.reporter}}</td>
-          <td>{{task.updatedate}}</td>
+          <td>{{task.due_date}}</td>
+          <td>{{task.creator}}</td>
+          <td>{{task.update_date}}</td>
           <td>
             <a href="{% url 'editTask' task.id %}" class="button">Edit</a>
             <a href="{% url 'removeTask' task.id %}" class="button">Delete</a>

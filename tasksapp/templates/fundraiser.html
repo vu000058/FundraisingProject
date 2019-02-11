@@ -55,15 +55,21 @@
                         <li class="nav-item">
                         <a class="nav-link" href="{% url 'index' %}">
                           <span data-feather="home"></span>
-                          Dashboard <span class="sr-only"></span>
+                          Tasks <span class="sr-only"></span>
                         </a>
                       </li>
 
 
                       <li class="nav-item">
-                        <a class="nav-link active" href="/fundraiser">
+                        <a class="nav-link active" href="/goals">
                           <span data-feather="home"></span>
-                          Fundraising <span class="sr-only">(current)</span>
+                          Fundraising Goals <span class="sr-only">(current)</span>
+                        </a>
+                      </li>
+                         <li class="nav-item">
+                        <a class="nav-link" href="/sections">
+                          <span data-feather="home"></span>
+                          Sections <span class="sr-only"></span>
                         </a>
                       </li>
 
@@ -113,11 +119,11 @@
 
             <div class="form-group">
             <label><strong>Goal</strong></label>
-                {% if not events %}
-                    <input type="text" class="form-control" name="eventGoal" id="eventGoal" placeholder="Goal amount">
-              {% else %}
-                    <br/>{{ goal}}
-                {% endif %}
+               {{ goal.amount }}
+            </div>
+            <div class="form-group">
+            <label><strong>Note</strong></label>
+               {{ goal.note }}
             </div>
 
         <div class="form-group">
@@ -201,16 +207,18 @@
            <thead class="thead-dark">
         <th>Name</th>
         <th>Description</th>
-        <th>Amount</th>
+        <th>Raised Amount</th>
+        <th>Deducted Amount</th>
         <th>Date Created</th>
            </thead>
       </tr>
       {% for event in events %}
         <tr>
-          <td>{{event.eventName}}</td>
-          <td>{{event.eventDescription}}</td>
-            <td>{{event.eventAmount}}</td>
-          <td>{{event.eventCreated}}</td>
+          <td>{{event.name}}</td>
+          <td>{{event.description}}</td>
+            <td>{{event.raised_amount}}</td>
+            <td>{{event.deducted_amount}}</td>
+          <td>{{event.event_created}}</td>
         </tr>
     {% endfor %}
     </table>

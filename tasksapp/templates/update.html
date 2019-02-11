@@ -141,11 +141,16 @@
         </div>
 <body onload="populateTask();">
     <header>
-       <h1>Edit Task</h1>
+        {% if task.id > 0 %}
+            <h1>Edit Task</h1>
+        {% else %}
+            <h1>Add Task</h1>
+        {% endif %}
+
     </header>
-    <h3>Update Task</h3><hr/>
     <div class="container">
-      <form action="{% url 'updateTask' task.id %}" method="post" >
+{#        {% url 'updateTask' task.id %}#}
+      <form action="" method="post" >
         {% csrf_token %}
         <table width="50%">
           <tr>
@@ -174,14 +179,36 @@
             <td style="text-align: right;">Status </td>
             <td>
               <select id="status" name="status">
-                <option value=""></option>
+                <option value="">Unassigned</option>
                 <option value="Assigned">Assigned</option>
-                <option value="Ongoing">Ongoing</option>
+                <option value="Ongoing">On Going</option>
+                  <option value="Ongoing">On Hold</option>
                 <option value="Finished">Finished</option>
               </select>
             </td>
           </tr>
-          <tr><td/><td/><td/><td><button type="submit" class="button">Update Task</button></td></tr>
+        <tr>
+            <td style="text-align: right;">Section </td>
+            <td>
+              <select id="section" name="section">
+                  {% for section in sections %}
+                        <option value="{{ section.id }}">{{ section }}</option>
+                  {% endfor %}
+              </select>
+            </td>
+          </tr>
+          <tr><td/><td/><td/>
+              <td>
+                    {% if task.id > 0 %}
+                        <button type="submit" class="button">Update Task</button>
+                    {% else %}
+                        <button type="submit" class="button">Add Task</button>
+                    {% endif %}
+
+                    <a href="/" class="button">Cancel</a>
+
+              </td>
+          </tr>
         </table>
       </form>
     </div>

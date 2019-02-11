@@ -13,5 +13,15 @@
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0.0" />
       <auth-required>false</auth-required>
     </data-source>
+    <data-source name="db.sqlite3" uuid="a0d1f5e3-0696-4e99-adaa-b74635cb52dd">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <secret-storage>master_key</secret-storage>
+      <auth-required>false</auth-required>
+    </data-source>
+    <data-source name="db.sqlite3 [2]" uuid="1f35f054-27f6-49d0-ad18-070a66507783">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <secret-storage>master_key</secret-storage>
+      <auth-required>false</auth-required>
+    </data-source>
   </component>
 </project>

@@ -50,8 +50,7 @@
                           Fundraising Goals <span class="sr-only"></span>
                         </a>
                       </li>
-
-                    <li class="nav-item">
+                         <li class="nav-item">
                         <a class="nav-link" href="/sections">
                           <span data-feather="home"></span>
                           Sections <span class="sr-only"></span>
@@ -74,41 +73,55 @@
 
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 
-    <h3>Create Section</h3><hr/>
+    <h3>Create Goal</h3><hr/>
     <div class="container">
-      <form action="/sections/" method="post">
+      <form action="/goals/" method="post">
         {% csrf_token %}
-          {{ form }}
-          <button type="submit" class="button">Add Section</button>
-{#        <table width="50%">#}
-{#          <tr>#}
-{#             <td style="text-align: right;">Section Name</td>#}
-{#             <td colspan="3">#}
-{#                 <input id="sectionName" name="sectionName" type="text" maxlength="100" required/>#}
-{#             </td>#}
-{#          </tr>#}
-{#          <tr><td/><td/><td></td><td><button type="submit" class="button">Add Section</button></td></tr>#}
-{#        </table>#}
+
+          <table width="50%">
+          <tr>
+             <td style="text-align: right;">Amount<span class="star">*</span></td>
+             <td colspan="3">
+                 <input id="amount" name="amount" type="number" required/>
+             </td>
+          </tr>
+          <tr>
+            <td style="text-align: right;">Note<span class="star">*</span></td>
+            <td><input id="note" name="note" type="text" maxlength="100" required/></td>
+          </tr>
+        <tr>
+            <td style="text-align: right;">Section </td>
+            <td>
+              <select id="section" name="section">
+                  {% for section in sections %}
+                        <option value="{{ section.id }}">{{ section }}</option>
+                  {% endfor %}
+              </select>
+            </td>
+          </tr>
+        </table>
+      <button type="submit">Add Goal</button>
       </form>
     </div>
-    <h3>Sections</h3><hr/>
+    <h3>Goals</h3><hr/>
     <table id="tasks" cellspacing="2" border="1">
       <tr>
-         <th>Section</th>
-          <th>Name</th>
-          <th>Term</th>
-          <th>Year</th>
+         <th>Goal</th>
+          <th>Section</th>
+          <th>Progress</th>
+          <th>Note</th>
           <th>Actions</th>
       </tr>
-      {% for section in sections %}
+      {% for goal in goals %}
         <tr>
-            <td>{{section}}</td>
-            <td>{{section.name}}</td>
-            <td>{{section.term}}</td>
-            <td>{{section.year}}</td>
-          <td>
-            <a href="{% url 'delete_section' section.id %}" class="button">Delete</a>
-          </td>
+            <td>{{goal.amount}}</td>
+            <td>{{goal.section}}</td>
+            <td>{{goal.amount}}</td>
+            <td>{{goal.note}}</td>
+            <td>
+                <input type="button" value="View Details"/>
+                <input type="button" value="Delete Goal"/>
+            </td>
         </tr>
     {% endfor %}
     </table>

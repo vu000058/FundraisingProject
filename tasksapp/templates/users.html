@@ -39,22 +39,15 @@
                       <li class="nav-item">
                         <a class="nav-link active" href="{% url 'index' %}">
                           <span data-feather="home"></span>
-                          Tasks <span class="sr-only">(current)</span>
+                          Dashboard <span class="sr-only">(current)</span>
                         </a>
                       </li>
 
 
                       <li class="nav-item">
-                        <a class="nav-link" href="/goals">
+                        <a class="nav-link" href="/fundraiser">
                           <span data-feather="home"></span>
-                          Fundraising Goals <span class="sr-only"></span>
-                        </a>
-                      </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/sections">
-                          <span data-feather="home"></span>
-                          Sections <span class="sr-only"></span>
+                          Fundraising <span class="sr-only"></span>
                         </a>
                       </li>
 
@@ -78,36 +71,30 @@
     <div class="container">
       <form action="/sections/" method="post">
         {% csrf_token %}
-          {{ form }}
-          <button type="submit" class="button">Add Section</button>
-{#        <table width="50%">#}
-{#          <tr>#}
-{#             <td style="text-align: right;">Section Name</td>#}
-{#             <td colspan="3">#}
-{#                 <input id="sectionName" name="sectionName" type="text" maxlength="100" required/>#}
-{#             </td>#}
-{#          </tr>#}
-{#          <tr><td/><td/><td></td><td><button type="submit" class="button">Add Section</button></td></tr>#}
-{#        </table>#}
+        <table width="50%">
+          <tr>
+             <td style="text-align: right;">Section Name</td>
+             <td colspan="3">
+                 <input id="sectionName" name="sectionName" type="text" maxlength="100" required/>
+             </td>
+          </tr>
+          <tr><td/><td/><td></td><td><button type="submit" class="button">Add Section</button></td></tr>
+        </table>
       </form>
     </div>
     <h3>Sections</h3><hr/>
     <table id="tasks" cellspacing="2" border="1">
       <tr>
-         <th>Section</th>
-          <th>Name</th>
-          <th>Term</th>
-          <th>Year</th>
+         <th>Section Name</th>
           <th>Actions</th>
       </tr>
       {% for section in sections %}
         <tr>
-            <td>{{section}}</td>
-            <td>{{section.name}}</td>
-            <td>{{section.term}}</td>
-            <td>{{section.year}}</td>
+          <td>{{section.name}}</td>
           <td>
-            <a href="{% url 'delete_section' section.id %}" class="button">Delete</a>
+              <input type="button" value="Delete Section
+"/>
+{#            <a href="{% url 'removeTask' task.id %}" class="button">Delete</a>#}
           </td>
         </tr>
     {% endfor %}
