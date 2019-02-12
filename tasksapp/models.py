@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 # 	assignee =  models.CharField(max_length=20)
 # 	duedate = models.DateField()
 # 	reporter =  models.CharField(max_length=30)
+
 # 	status =  models.CharField(max_length=20)
 # 	updatedate = models.DateField(auto_now_add=True)
 #

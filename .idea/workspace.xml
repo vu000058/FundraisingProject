@@ -2,27 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf915f96-9a76-4edd-a5e3-e86d79c52baf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/ff0c1b32-39a0-43aa-b909-e8d04a1f5941.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/ff0c1b32-39a0-43aa-b909-e8d04a1f5941.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/mytasks.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/mytasks.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fundraiser/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mytasks/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mytasks/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/migrations/0002_auto_20181029_0226.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/migrations/0003_task_description.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/migrations/0004_auto_20181125_2357.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/migrations/0005_section.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/tasksapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/tasksapp/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/templates/fundraiser.html" beforeDir="false" afterPath="$PROJECT_DIR$/tasksapp/templates/fundraiser.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/tasksapp/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/templates/section.html" beforeDir="false" afterPath="$PROJECT_DIR$/tasksapp/templates/section.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/templates/update.html" beforeDir="false" afterPath="$PROJECT_DIR$/tasksapp/templates/update.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasksapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/tasksapp/views.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -75,11 +57,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tasksapp/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="49" column="25" selection-start-line="49" selection-start-column="25" selection-end-line="49" selection-end-column="25" />
+            <state relative-caret-position="204">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -88,28 +70,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="das://ff0c1b32-39a0-43aa-b909-e8d04a1f5941/schema/main/table/eventsdb">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/1f35f054-27f6-49d0-ad18-070a66507783/console.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="16" lean-forward="true" selection-start-column="16" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tasksapp/templates/update.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="152" column="20" lean-forward="true" selection-start-line="152" selection-start-column="20" selection-end-line="152" selection-end-column="20" />
+            <state relative-caret-position="2584">
+              <caret line="152" column="20" selection-start-line="152" selection-start-column="20" selection-end-line="152" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -117,8 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tasksapp/templates/users.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1420">
-              <caret line="10" column="6" lean-forward="true" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+            <state relative-caret-position="170">
+              <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -126,17 +90,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tasksapp/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="143" column="31" selection-start-line="143" selection-start-column="31" selection-end-line="143" selection-end-column="31" />
+            <state relative-caret-position="174">
+              <caret line="142" column="48" lean-forward="true" selection-start-line="142" selection-start-column="48" selection-end-line="142" selection-end-column="48" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tasksapp/views.py">
+        <entry file="file://$PROJECT_DIR$/accounts/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="186" column="29" selection-start-line="186" selection-start-column="29" selection-end-line="186" selection-end-column="29" />
+            <state relative-caret-position="-85">
+              <caret line="13" column="33" lean-forward="true" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -145,9 +109,30 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tasksapp/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="126" column="36" lean-forward="true" selection-start-line="126" selection-start-column="36" selection-end-line="126" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://E:/Users/oliver/PycharmProjects/untitled/venv/Lib/site-packages/django/forms/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1843">
+              <caret line="376" column="70" lean-forward="true" selection-start-line="376" selection-start-column="70" selection-end-line="376" selection-end-column="70" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mytasks/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
+            <state relative-caret-position="357">
               <caret line="24" column="19" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
             </state>
           </provider>
@@ -156,17 +141,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mytasks/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="214">
-              <caret line="130" column="20" lean-forward="true" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
+            <state relative-caret-position="2210">
+              <caret line="130" column="20" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tasksapp/templates/section.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="112" column="16" lean-forward="true" selection-start-line="112" selection-start-column="16" selection-end-line="112" selection-end-column="16" />
+            <state relative-caret-position="121">
+              <caret line="134" column="8" selection-start-line="134" selection-start-column="8" selection-end-line="134" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -266,15 +251,15 @@
         <option value="$PROJECT_DIR$/accounts/urls.py" />
         <option value="$PROJECT_DIR$/mytasks/urls.py" />
         <option value="$PROJECT_DIR$/tasksapp/forms.py" />
-        <option value="$PROJECT_DIR$/tasksapp/models.py" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/1f35f054-27f6-49d0-ad18-070a66507783/console.sql" />
         <option value="$PROJECT_DIR$/tasksapp/views.py" />
         <option value="$PROJECT_DIR$/mytasks/settings.py" />
+        <option value="$PROJECT_DIR$/tasksapp/models.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="82" />
+    <option name="x" value="81" />
     <option name="y" value="405" />
     <option name="width" value="1185" />
     <option name="height" value="790" />
@@ -294,33 +279,6 @@
             <path>
               <item name="FundraisingProject" type="b2602c69:ProjectViewProjectNode" />
               <item name="FundraisingProject" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="FundraisingProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FundraisingProject" type="462c0819:PsiDirectoryNode" />
-              <item name="accounts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="FundraisingProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FundraisingProject" type="462c0819:PsiDirectoryNode" />
-              <item name="accounts" type="462c0819:PsiDirectoryNode" />
-              <item name="migrations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="FundraisingProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FundraisingProject" type="462c0819:PsiDirectoryNode" />
-              <item name="environment" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="FundraisingProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FundraisingProject" type="462c0819:PsiDirectoryNode" />
-              <item name="fundraiser" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="FundraisingProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="FundraisingProject" type="462c0819:PsiDirectoryNode" />
-              <item name="fundraiser" type="462c0819:PsiDirectoryNode" />
-              <item name="migrations" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FundraisingProject" type="b2602c69:ProjectViewProjectNode" />
@@ -407,7 +365,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Django server.MainApp">
+  <component name="RunManager">
     <configuration name="Test: mytasks" type="DjangoTestsConfigurationType" temporary="true">
       <module name="mytasks" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -495,20 +453,6 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
-    <list>
-      <item itemvalue="Django server.MainApp" />
-      <item itemvalue="Django tests.Test: mytasks" />
-      <item itemvalue="Django tests.Test: tasksapp" />
-      <item itemvalue="Django tests.Test: tasksapp.tests" />
-      <item itemvalue="JavaScript Debug.fundraiser.html" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Django tests.Test: tasksapp.tests" />
-        <item itemvalue="Django tests.Test: tasksapp" />
-        <item itemvalue="Django tests.Test: mytasks" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -591,7 +535,7 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4988345" visible="true" weight="0.21879195" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4988345" visible="true" weight="0.21877065" />
       <window_info id="Structure" order="1" sideWeight="0.5011655" side_tool="true" weight="0.16263238" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -605,7 +549,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" sideWeight="0.49924356" weight="0.3289689" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.20121029" side_tool="true" weight="0.25859246" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.79878974" visible="true" weight="0.41501418" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" sideWeight="0.79878974" visible="true" weight="0.26770538" />
       <window_info anchor="bottom" id="Python Console" order="12" sideWeight="0.49730313" weight="0.32719547" />
       <window_info anchor="bottom" id="Database Console" order="13" sideWeight="0.70939595" weight="0.3286119" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -625,7 +569,6 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tasksapp/templates/fundraiser_new.html" />
     <entry file="file://$PROJECT_DIR$/accounts/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -665,9 +608,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/environment/Lib/site-packages/django/contrib/auth/locale/nn/LC_MESSAGES/django.po" />
     <entry file="file://$PROJECT_DIR$/environment/Lib/site-packages/django/forms/models.py" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ff0c1b32-39a0-43aa-b909-e8d04a1f5941/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ff0c1b32-39a0-43aa-b909-e8d04a1f5941/console.sql" />
     <entry file="das://ff0c1b32-39a0-43aa-b909-e8d04a1f5941/schema/main/table/auth_user" />
     <entry file="file://$PROJECT_DIR$/environment/Lib/site-packages/django/forms/forms.py" />
     <entry file="file://$PROJECT_DIR$/environment/Lib/site-packages/django/contrib/auth/forms.py" />
@@ -798,13 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/accounts/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="10" selection-start-line="10" selection-end-line="10" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/accounts/models.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -842,79 +776,84 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tasksapp/templates/index.html">
+    <entry file="das://ff0c1b32-39a0-43aa-b909-e8d04a1f5941/schema/main/table/eventsdb" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/1f35f054-27f6-49d0-ad18-070a66507783/console.sql" />
+    <entry file="file://$PROJECT_DIR$/tasksapp/templates/update.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="143" column="31" selection-start-line="143" selection-start-column="31" selection-end-line="143" selection-end-column="31" />
+        <state relative-caret-position="2584">
+          <caret line="152" column="20" selection-start-line="152" selection-start-column="20" selection-end-line="152" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tasksapp/models.py">
+    <entry file="file://$PROJECT_DIR$/tasksapp/templates/users.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="49" column="25" selection-start-line="49" selection-start-column="25" selection-end-line="49" selection-end-column="25" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://ff0c1b32-39a0-43aa-b909-e8d04a1f5941/schema/main/table/eventsdb">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/1f35f054-27f6-49d0-ad18-070a66507783/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="16" lean-forward="true" selection-start-column="16" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasksapp/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="186" column="29" selection-start-line="186" selection-start-column="29" selection-end-line="186" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="170">
+          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mytasks/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
+        <state relative-caret-position="357">
           <caret line="24" column="19" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mytasks/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="214">
-          <caret line="130" column="20" lean-forward="true" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasksapp/templates/users.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1420">
-          <caret line="10" column="6" lean-forward="true" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tasksapp/templates/update.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="152" column="20" lean-forward="true" selection-start-line="152" selection-start-column="20" selection-end-line="152" selection-end-column="20" />
+        <state relative-caret-position="2210">
+          <caret line="130" column="20" selection-start-line="130" selection-start-column="20" selection-end-line="130" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tasksapp/templates/section.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="112" column="16" lean-forward="true" selection-start-line="112" selection-start-column="16" selection-end-line="112" selection-end-column="16" />
+        <state relative-caret-position="121">
+          <caret line="134" column="8" selection-start-line="134" selection-start-column="8" selection-end-line="134" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasksapp/templates/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="142" column="48" lean-forward="true" selection-start-line="142" selection-start-column="48" selection-end-line="142" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/accounts/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-85">
+          <caret line="13" column="33" lean-forward="true" selection-start-line="13" selection-start-column="33" selection-end-line="13" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://E:/Users/oliver/PycharmProjects/untitled/venv/Lib/site-packages/django/forms/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1843">
+          <caret line="376" column="70" lean-forward="true" selection-start-line="376" selection-start-column="70" selection-end-line="376" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasksapp/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="126" column="36" lean-forward="true" selection-start-line="126" selection-start-column="36" selection-end-line="126" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tasksapp/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
