@@ -2,8 +2,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-         <h1>Fundraising Tasks Management</h1>
+    <style>
+        .badge-text {
+            font-size: 14px;
+        }
+    </style>
+    <h1>Fundraising Tasks Management</h1>
 
     <h3>Tasks</h3><hr/>
     <a href="/addedit/0" class="btn btn-primary">Add Task</a>
@@ -50,7 +54,21 @@
           <td>{{task.event}}</td>
           <td><a href="#" target="_self" onClick="showDesc('{{task.event}}', '{{task.description}}', '{{task.name}}')">{{task.name}}</a></th>
           <td>{{task.assignee}}</td>
-          <td>{{task.status}}</td>
+          <td>
+              {% if task.status == "Unassigned" %}
+                  <span class="badge badge-secondary badge-text">{{task.status}}</span>
+              {% elif task.status == "Assigned" %}
+                  <span class="badge badge-primary badge-text">{{task.status}}</span>
+              {% elif task.status == "Finished" %}
+                  <span class="badge badge-success badge-text">{{task.status}}</span>
+              {% elif task.status == "Ongoing" %}
+                   <span class="badge badge-info badge-text">{{task.status}}</span>
+              {% elif task.status == "On Hold" %}
+                   <span class="badge badge-warning badge-text">{{task.status}}</span>
+              {% else %}
+                  <span class="badge badge-danger badge-text">{{task.status}}</span>
+              {% endif %}
+          </td>
           <td>{{task.due_date}}</td>
           <td>{{task.creator}}</td>
           <td>{{task.update_date}}</td>
