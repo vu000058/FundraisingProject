@@ -53,4 +53,23 @@ class RegistrationForm(forms.Form):
             })
         return self.cleaned_data
 
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    # def clean(self):
+    #     email = self.cleaned_data.get('email')
+    #     if User.objects.filter(email=email).exists():
+    #         raise forms.ValidationError({
+    #             'email': 'Email already existed'
+    #         })
+    #
+    #     password = self.cleaned_data.get('password')
+    #     confirm_password = self.cleaned_data.get('confirm_password')
+    #     if confirm_password != password:
+    #         raise forms.ValidationError({
+    #             'password': 'Passwords mismatched'
+    #         })
+    #     return self.cleaned_data
+
 

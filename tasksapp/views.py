@@ -2,10 +2,11 @@ from django.shortcuts import render
 from tasksapp.models import Task, Section, UserProfile, Goal, Event
 from django.utils import timezone
 from django.shortcuts import redirect
-from .forms import SectionForm, RegistrationForm
+from .forms import SectionForm, RegistrationForm, LoginForm
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
-from django.urls import reverse
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 import uuid
 
 
@@ -14,17 +15,18 @@ task_statuses = ["Unassigned", "Assigned", "Ongoing", "On Hold", "Cancelled", "F
 #first if for the GET that orders all the tasks by due date, default page
 #elif has the POST where it creates the user input and stores it in the db
 
+@login_required
 def index(request):
     if request.method == 'GET':
         tasks = Task.objects.all().order_by('due_date')
         return render(request, "index.html", {'tasks': tasks, 'statuses': task_statuses})
 
-
+@login_required
 def delete_task(request, id):
     Task.objects.get(id=id).delete()
     return redirect('/')
 
-
+@login_required
 def add_edit_task(request, id=0):
     if request.method == "GET":
         task = Task.objects.get(id=id) if id > 0 else Task()
@@ -75,6 +77,7 @@ def add_edit_task(request, id=0):
 
 
 #search function for when you want to search by event name, task, assignee, duedate etc
+@login_required
 def search(request):
     eventName = request.POST.get("eventName")
     taskName = request.POST.get("task")
@@ -92,6 +95,7 @@ def search(request):
     return render(request, "index.html", {'tasks': objects.order_by('due_date'), 'statuses': task_statuses})
 
 
+@login_required
 def sections(request):
     if request.method == 'GET':
         section = SectionForm()
@@ -109,15 +113,18 @@ def sections(request):
         return redirect('/sections')
 
 
+@login_required
 def delete_section(request, id):
     Section.objects.get(id=id).delete()
     return redirect('/sections')
 
 
+@login_required
 def users(request):
     return render(request, "users.html", {'user_profiles': UserProfile.objects.all()})
 
 
+@login_required
 def goals(request):
     if request.method == "POST":
         amount = request.POST.get("amount", "")
@@ -130,6 +137,7 @@ def goals(request):
                                           'sections': Section.objects.all()})
 
 
+@login_required
 def goal_details(request, id):
     goal = Goal.objects.get(id=id)
 
@@ -193,10 +201,13 @@ def sign_up(request):
 
 
 def activate(request):
-    email = request.GET['email']
-    code = request.GET['code']
-    user = User.objects.filter(email=email).first()
-    if not user or user.profile.activation_code != code:
+    try:
+        email = request.GET['email']
+        code = request.GET['code']
+        user = User.objects.filter(email=email).first()
+        if not user or user.profile.activation_code != code:
+            return render(request, 'accountactivation.html')
+    except Exception:
         return render(request, 'accountactivation.html')
 
     user.is_active = True
@@ -233,6 +244,7 @@ def create_test_users():
         pass
 
 
+@login_required
 def activate_user(request, id):
     user = UserProfile.objects.get(id=id).user
     user.is_active = True
@@ -241,6 +253,7 @@ def activate_user(request, id):
     return redirect('/users')
 
 
+@login_required
 def deactivate_user(request, id):
     user = UserProfile.objects.get(id=id).user
     user.is_active = False

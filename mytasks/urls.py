@@ -21,6 +21,7 @@ from django.views.generic.base import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    # path('login/', views.log_in, 'log_in'),
     path('signup/', views.sign_up, name='signup'),
     path('activate/', views.activate, name='activate'),
     path('delete_task/<int:id>', views.delete_task, name='deleteTask'),
