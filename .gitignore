@@ -103,3 +103,7 @@ environment/
 
 # mypy
 .mypy_cache/
+
+.idea/*.iws
+.idea/tasks.xml
+.idea/workspace.xml
