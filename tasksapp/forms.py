@@ -26,6 +26,10 @@ class SectionForm(forms.Form):
     year = forms.ChoiceField(choices=YEAR_CHOICES, label="Year", widget=forms.Select(), required=True)
     term = forms.ChoiceField(choices=TERM_CHOICES, label="Term",  widget=forms.Select(), required=True)
 
+    def __init__(self, *args, **kwargs):
+        super(SectionForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
 class RegistrationForm(forms.Form):
     email = forms.EmailField()
@@ -48,5 +52,24 @@ class RegistrationForm(forms.Form):
                 'password': 'Passwords mismatched'
             })
         return self.cleaned_data
+
+class LoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput())
+
+    # def clean(self):
+    #     email = self.cleaned_data.get('email')
+    #     if User.objects.filter(email=email).exists():
+    #         raise forms.ValidationError({
+    #             'email': 'Email already existed'
+    #         })
+    #
+    #     password = self.cleaned_data.get('password')
+    #     confirm_password = self.cleaned_data.get('confirm_password')
+    #     if confirm_password != password:
+    #         raise forms.ValidationError({
+    #             'password': 'Passwords mismatched'
+    #         })
+    #     return self.cleaned_data
 
 
