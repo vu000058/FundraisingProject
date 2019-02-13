@@ -1,7 +1,11 @@
 <!-- templates/registration/login.html -->
 
+
 <!DOCTYPE html>
+
 <html>
+
+
 <head>
 	<title>Login Page</title>
    <!--Made with love by Mutiullah Samim -->
@@ -14,9 +18,16 @@
 
 	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="styles.css">
+
+	{% extends 'anonymousbase.html' %}
+	{% block content %}
+
+
 </head>
 <body>
-<div class="container">
+
+
+<div class="container" >
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
@@ -25,24 +36,24 @@
 			</div>
 			<div class="card-body" style="text-align: center">
 
-            {% block title %}Login{% endblock %}
-                        {% block content %}
-                        <form method="post">
+            {% block title %}{% endblock %}
+
+				<form method="post">
                         {% csrf_token %}
                         {{ form.as_p }}
-                     <button type="submit" style="margin-bottom: 30px">Login</button>
-                    </form>
-					<div class="row align-items-center remember">
-                        <input type="checkbox">Remember Me
-					</div>
-					<div class="form-group">
-					</div>
+                     <button type="submit" class="btn btn-primary" style="margin-bottom: 15px">Login</button>
 				</form>
+					<div class="d-flex justify-content-center">
+						<div class="row align-items-center remember">
+							<input type="checkbox" align="center">Remember Me
+						</div>
+					</div>
+
 			</div>
 			<div class="card-footer">
 				<div class="d-flex justify-content-center links">
 					Don't have an account?
-                          <a href="{% url 'signup' %}"> Sign Up</a>
+                          <a href="{% url 'signup' %}">Sign Up</a>
 
 				</div>
 				<div class="d-flex justify-content-center">
@@ -52,6 +63,12 @@
 		</div>
 	</div>
 </div>
+
+
+
 </body>
 {% endblock %}
+
+
+
 </html>
