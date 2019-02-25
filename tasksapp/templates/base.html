@@ -61,12 +61,15 @@
                     </h5>
                   </li>
 
-                <li class="nav-item">
+                {% if request.user.profile and request.user.profile.is_instructor %}
+                      <li class="nav-item">
                     <a class="nav-link active" href="{% url 'users' %}">
                         <i class="fas fa-users"></i>
                       Users <span class="sr-only"></span>
                     </a>
                   </li>
+                {% endif %}
+
                   <li class="nav-item">
                     <a class="nav-link active" href="{% url 'index' %}">
                      <i class="fas fa-tasks"></i> Tasks <span class="sr-only">(current)</span>

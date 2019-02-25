@@ -19,8 +19,16 @@ task_statuses = ["Unassigned", "Assigned", "Ongoing", "On Hold", "Cancelled", "F
 @login_required
 def index(request):
     if request.method == 'GET':
-        tasks = Task.objects.all().order_by('due_date')
+        if request.user.profile and request.user.profile.is_instructor:
+            tasks = Task.objects.all().order_by('due_date')
+        elif request.user.profile and not request.user.profile.is_instructor\
+                and request.user.profile.section is not None:
+            tasks = Task.objects.filter(section=request.user.profile.section)\
+                .order_by('due_date')
+        else:
+            tasks = []
         sections = Section.objects.all()
+
         return render(request, "index.html", {
             'tasks': tasks,
             'statuses': task_statuses,
