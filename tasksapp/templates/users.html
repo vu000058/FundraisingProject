@@ -16,36 +16,68 @@
                 <th scope="col">Action</th>
           </tr>
          {% for profile in user_profiles %}
-    <tr>
-      <td>{{profile.user.username}}</td>
-        <td>{{profile.user.email}}</td>
-        <td>{{profile.section}}</td>
-        <td>{% if profile.is_instructor %}
-            Instructor
-            {% else %}
-            Student
-            {% endif %}
-        </td>
-        <td>{% if profile.user.is_active %}
-            Active
-            {% else %}
-            Inactive
-            {% endif %}
-        </td>
-      <td>
-          {% if profile.user.is_active %}
-              <form action="{% url 'deactivate_user' profile.user.id %}">
-                  <input type="submit" class="btn btn-green" value="Deactivate User"/>
-              </form>
-          {% else %}
-               <form action="{% url 'activate_user' profile.user.id %}">
-                  <input type="submit" class="btn btn-dark" value="Activate User"/>
-              </form>
-          {% endif %}
-      </td>
-    </tr>
-{% endfor %}
-    </table>
+            <tr>
+              <td>{{profile.user.username}}</td>
+                <td>{{profile.user.email}}</td>
+                <td>
+                    <form action="{% url 'set_user_section' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="userId" value="{{ profile.id }}" />
+                        <select class="form-control" name="userSection" onchange="this.form.submit()">
+                            <option value="0"
+                                    {% if not profile.section %}
+                                        selected
+                                    {% endif %}
+                            ></option>
+                              {% for section in sections %}
+                                    <option value="{{ section.id }}"
+                                        {% if profile.section and profile.section == section %}
+                                            selected
+                                        {% endif %}
+                                    >{{ section }}</option>
+                              {% endfor %}
+                        </select>
+                    </form>
+                </td>
+                <td>
+                    <form action="{% url 'set_user_role' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="userId" value="{{ profile.id }}" />
+                        <select class="form-control" name="userRole" onchange="this.form.submit()">
+                            <option value="true"
+                                {% if profile.is_instructor %}
+                                    selected
+                                {% endif %}
+                            >Instructor</option>
+                            <option value="false"
+                                {% if not profile.is_instructor %}
+                                    selected
+                                {% endif %}
+                            >Student</option>
+                        </select>
+                    </form>
+                </td>
+                <td>
+                    {% if profile.user.is_active %}
+                        Active
+                    {% else %}
+                        Inactive
+                    {% endif %}
+                </td>
+                  <td>
+                      {% if profile.user.is_active %}
+                          <form action="{% url 'deactivate_user' profile.user.id %}">
+                              <input type="submit" class="btn btn-green" value="Deactivate User"/>
+                          </form>
+                      {% else %}
+                           <form action="{% url 'activate_user' profile.user.id %}">
+                              <input type="submit" class="btn btn-dark" value="Activate User"/>
+                          </form>
+                      {% endif %}
+                  </td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
 
 

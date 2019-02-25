@@ -56,10 +56,10 @@
         <tr>
             <td>{{goal.amount}}</td>
             <td>{{goal.section}}</td>
-            <td>{{goal.amount}}</td>
+            <td>{{goal.amount}}$</td>
             <td>{{goal.note}}</td>
             <td>
-                <a href="/goals" class="btn btn-dark">View Details</a>
+                <a href="{% url 'goal_details' goal.id %}" class="btn btn-dark">View Details</a>
                 <a href="/goals" class="btn btn-dark">Delete Goal</a>
             </td>
         </tr>

@@ -2,11 +2,12 @@ from django.shortcuts import render
 from tasksapp.models import Task, Section, UserProfile, Goal, Event
 from django.utils import timezone
 from django.shortcuts import redirect
-from .forms import SectionForm, RegistrationForm, LoginForm
+from .forms import SectionForm, RegistrationForm, LoginForm, EventForm
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 import uuid
 
 
@@ -19,7 +20,12 @@ task_statuses = ["Unassigned", "Assigned", "Ongoing", "On Hold", "Cancelled", "F
 def index(request):
     if request.method == 'GET':
         tasks = Task.objects.all().order_by('due_date')
-        return render(request, "index.html", {'tasks': tasks, 'statuses': task_statuses})
+        sections = Section.objects.all()
+        return render(request, "index.html", {
+            'tasks': tasks,
+            'statuses': task_statuses,
+            'sections': sections
+        })
 
 @login_required
 def delete_task(request, id):
@@ -121,7 +127,10 @@ def delete_section(request, id):
 
 @login_required
 def users(request):
-    return render(request, "users.html", {'user_profiles': UserProfile.objects.all()})
+    return render(request, "users.html", {
+        'user_profiles': UserProfile.objects.all(),
+        'sections': Section.objects.all()
+    })
 
 
 @login_required
@@ -133,8 +142,10 @@ def goals(request):
         goal = Goal(amount=amount, note=note, section=Section.objects.get(id=section))
         goal.save()
 
-    return render(request, "goals.html", {'goals': Goal.objects.all(),
-                                          'sections': Section.objects.all()})
+    return render(request, "goals.html", {
+        'goals': Goal.objects.all(),
+        'sections': Section.objects.all()
+    })
 
 
 @login_required
@@ -142,13 +153,29 @@ def goal_details(request, id):
     goal = Goal.objects.get(id=id)
 
     if request.method == 'GET':
-        events = Event.objects.all()
-        return render(request, "fundraiser.html", {'events': events, 'goal': goal})
+        events = Event.objects.filter(goal=goal)
+        total_raised = 0
+        for event in events:
+            total_raised += event.raised_amount
+            total_raised -= event.deducted_amount
+
+        return render(request, "events.html", {
+            'events': events,
+            'goal': goal,
+            'totalRaised': total_raised
+        })
     elif request.method == 'POST':
-        event_name = request.POST.get("name", "")
+        event_name = request.POST.get("eventName", "")
         event_description = request.POST.get("description", "")
-        raised_amount = request.POST.get("raised_amount", "")
-        deducted_amount = request.POST.get("deducted_amount", "")
+        amount = request.POST.get("amount", "")
+        type = request.POST.get("type", "")
+        if type == "Donation":
+            raised_amount = amount
+            deducted_amount = 0
+        else:
+            raised_amount = 0
+            deducted_amount = amount
+
         event = Event(
             goal=goal,
             name=event_name,
@@ -158,8 +185,15 @@ def goal_details(request, id):
         )
         event.save()
 
-        return redirect('/fundraiser')
+        return redirect('/goal_details/%d' % id)
 
+
+def delete_event(request, id):
+    event = Event.objects.get(id=id)
+    goal_id = event.goal.id
+    event.delete()
+
+    return redirect('/goal_details/%d' % goal_id)
 
 def sign_up(request):
     if request.method == 'POST':
@@ -213,6 +247,47 @@ def activate(request):
     user.is_active = True
     user.save()
     return render(request, 'accountactivation.html')
+
+
+@login_required
+def set_user_section(request):
+    userId = request.POST['userId']
+    userSection = request.POST['userSection']
+
+    profile = UserProfile.objects.get(user_id=userId)
+
+    if int(userSection) > 0:
+        profile.section = Section.objects.get(id=userSection)
+    else:
+        profile.section = None
+    profile.save()
+
+    messages.add_message(
+        request,
+        messages.SUCCESS,
+        "Updated user %s successfully" % profile.user.username
+    )
+
+    return redirect('/users')
+
+
+@login_required
+def set_user_role(request):
+    userId = request.POST['userId']
+    isInstructor = request.POST['userRole']
+
+    profile = UserProfile.objects.get(user_id=userId)
+
+    profile.is_instructor = bool(isInstructor)
+    profile.save()
+
+    messages.add_message(
+        request,
+        messages.SUCCESS,
+        "Updated user %s successfully" % profile.user.username
+    )
+
+    return redirect('/users')
 
 
 def create_test_users():

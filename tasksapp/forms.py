@@ -20,6 +20,11 @@ YEAR_CHOICES = (
     (2029, 2029)
 )
 
+EVENT_TYPE = (
+    ("Donation", "Donation"),
+    ("Deduction", "Deduction")
+)
+
 
 class SectionForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput())
@@ -71,5 +76,18 @@ class LoginForm(forms.Form):
     #             'password': 'Passwords mismatched'
     #         })
     #     return self.cleaned_data
+
+
+class EventForm(forms.Form):
+    name = forms.CharField(label="Event Name", widget=forms.TextInput())
+    description = forms.CharField(label="Description", widget=forms.Textarea(attrs={'rows':3}))
+    type = forms.ChoiceField(choices=EVENT_TYPE, label="Type", widget=forms.RadioSelect())
+    amount = forms.CharField(label="Amount",  widget=forms.TextInput(), required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(EventForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if visible.name != 'type':
+                visible.field.widget.attrs['class'] = 'form-control'
 
 

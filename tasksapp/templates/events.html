@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Fundraising Management</h1>
+
+    <h4>Section: {{ goal.section }}</h4>
+    <h4>Goal: {{ goal.amount }}$</h4>
+
+<div class="progress" style="height:50px">
+    <div id="raised" class="progress-bar bg-success" style="width:0%">
+      <strong><span id="raisedText"></span> %</strong>
+    </div>
+    <div id="left" class="progress-bar bg-danger" style="width:0%">
+        <strong><span id="leftText"></span> %</strong>
+    </div>
+  </div>
+    <form method="POST" >
+          {% csrf_token %}
+    <div class="card">
+        <div class="container-fluid mt-3">
+            <div class="form-group">
+            <label class="font-weight-bold">Event Type</label>
+            <div>
+                <label class="font-weight-bold">
+                    <input type="radio" name="type" value="Donation" checked> Donation
+                </label>
+                <label class="font-weight-bold ml-5">
+                    <input type="radio" name="type" value="Deduction"> Deduction
+                </label>
+            </div>
+        </div>
+
+            <div class="form-group">
+                <label class="font-weight-bold">Event Name</label>
+                <input type="text" name="eventName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="font-weight-bold">Description</label>
+                <textarea name="description" class="form-control" row="3" ></textarea>
+            </div>
+
+
+          <div class="form-group">
+            <label class="font-weight-bold">Amount</label>
+              <input type="number" name="amount" class="form-control" />
+        </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Update progress</button>
+        </div>
+    </div>
+
+  </form>
+
+   <div class="container-fluid">
+      <h2>Donations & Deductions</h2>
+
+ <table class="table table-bordered table-hover" id="events">
+      <tr>
+          <thead class="thead-dark">
+            <th scope="col">Event Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Raised Amount</th>
+            <th scope="col">Deducted Amount</th>
+            <th scope="col">Date Created</th>
+            <th scope="col">Actions</th>
+           </thead>
+      </tr>
+          {% for event in events %}
+            <tr>
+              <td>{{event.name}}</td>
+              <td>{{event.description}}</td>
+                <td>
+                    {% if event.raised_amount == 0 %}
+                         N/A
+                    {% else %}
+                         {{event.raised_amount}}
+                    {% endif %}
+
+                </td>
+                <td>
+                    {% if event.deducted_amount == 0 %}
+                         N/A
+                    {% else %}
+                         {{event.deducted_amount}}
+                    {% endif %}
+                </td>
+              <td>{{event.created_date}}</td>
+                <td>
+                     <a href="{% url 'addEditTask' event.id %}" class="btn btn-info" title="Edit">
+                         <i class="fas fa-edit"></i>
+                     </a>
+                    <button type="button" class="btn btn-danger delete-btn"
+                            data-toggle="modal" data-target="#deleteModal"
+                            data-id="{{ event.id }}" data-name="{{ event.name }}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+      </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <h4>Are you sure you want to delete this event?</h4>
+              <h4 id="eventName"></h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <a id="deleteEvent" href="/" class="btn btn-danger" title="Delete">
+                Delete
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script src="../static/tasksapp/js/events.js"></script>
+
+<script>
+
+    var totalRaised = {{ totalRaised }};
+    var totalGoal = {{ goal.amount }};
+
+    console.log(totalRaised);
+    console.log(totalGoal);
+
+    $( document ).ready(function() {
+
+        viewProgressBar();
+        // updateProgressBar();
+    });
+    function viewProgressBar(){
+        console.log(totalRaised);
+        console.log(totalGoal);
+        var total = (totalRaised / totalGoal) * 100;
+        var totalLeft = ((totalGoal - totalRaised) / totalGoal) * 100;
+        console.log(totalLeft);
+        var raisedElement = document.getElementById("raised");
+        raisedElement.style.width = total + "%";
+        var leftElement = document.getElementById("left");
+        leftElement.style.width = totalLeft + "%";
+
+        //update text
+        var raisedTextElement = document.getElementById("raisedText");
+        raisedTextElement.innerText = total.toFixed(1);
+        var leftTextElement = document.getElementById("leftText");
+        leftTextElement.innerText = totalLeft.toFixed(1);
+    }
+
+    function updateProgressBar(){
+        // store user input from Amount Raised textbox
+        var amountRaisedElement = document.getElementById("amountRaised");
+
+        if((totalRaised < totalGoal) && amountRaisedElement.value.length>0){
+            totalRaised = totalRaised + parseFloat(amountRaisedElement.value);
+
+            var total = (totalRaised / totalGoal) * 100;
+            var totalLeft = ((totalGoal - totalRaised) / totalGoal) * 100;
+
+            var raisedElement = document.getElementById("raised");
+            raisedElement.style.width = total + "%";
+            var leftElement = document.getElementById("left");
+            leftElement.style.width = totalLeft + "%";
+
+            //update text
+            var raisedTextElement = document.getElementById("raisedText");
+            raisedTextElement.innerText = total.toFixed(1);
+            var leftTextElement = document.getElementById("leftText");
+            leftTextElement.innerText = totalLeft.toFixed(1);
+        }
+    }
+</script>
+{% endblock %}
+
