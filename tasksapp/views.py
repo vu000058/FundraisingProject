@@ -2,10 +2,11 @@ from django.shortcuts import render
 from tasksapp.models import Task, Section, UserProfile, Goal, Event
 from django.utils import timezone
 from django.shortcuts import redirect
-from .forms import SectionForm, RegistrationForm, LoginForm, EventForm
+from .forms import SectionForm, RegistrationForm, ChangePasswordForm
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.contrib.auth import authenticate
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import uuid
@@ -325,6 +326,29 @@ def create_test_users():
         profile.save()
     except Exception:
         pass
+
+
+@login_required
+def change_password(request):
+    if request.method == "GET":
+        form = ChangePasswordForm()
+    else:
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            if not request.user.check_password(form.cleaned_data['password']):
+                form.add_error(None, "Invalid password!")
+            else:
+                request.user.set_password(form.cleaned_data['new_password'])
+                request.user.save()
+                update_session_auth_hash(request, request.user)
+                messages.add_message(
+                    request,
+                    messages.SUCCESS,
+                    "Your password has been updated successfully"
+                )
+                return redirect('/change_password')
+
+    return render(request, "changepassword.html", { "form": form })
 
 
 @login_required
