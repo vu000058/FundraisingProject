@@ -94,20 +94,33 @@ def add_edit_task(request, id=0):
 #search function for when you want to search by event name, task, assignee, duedate etc
 @login_required
 def search(request):
-    eventName = request.POST.get("eventName")
-    taskName = request.POST.get("task")
-    assignedTo = request.POST.get("assignee")
-    state = request.POST.get("status")
+    event_name = request.POST.get("eventName").strip()
+    task = request.POST.get("task").strip()
+    assignee = request.POST.get("assignee").strip()
+    state = request.POST.get("status").strip()
     objects = Task.objects.all()
-    if eventName.strip():
-        objects = objects.filter(event__icontains=eventName)
-    if taskName.strip():
-        objects = objects.filter(name__icontains=taskName)
-    if assignedTo.strip():
-        objects = objects.filter(assignee__icontains=assignedTo)
-    if state.strip():
+
+    if event_name:
+        objects = objects.filter(event__icontains=event_name)
+    if task:
+        objects = objects.filter(name__icontains=task)
+    if assignee:
+        objects = objects.filter(assignee__icontains=assignee)
+    if state:
         objects = objects.filter(status=state)
-    return render(request, "index.html", {'tasks': objects.order_by('due_date'), 'statuses': task_statuses})
+
+    search_term = {
+        'eventName': event_name,
+        'task': task,
+        'assignee': assignee,
+        'state': state,
+    }
+
+    return render(request, "index.html", {
+        'tasks': objects.order_by('due_date'),
+        'statuses': task_statuses,
+        'searchTerm': search_term
+    })
 
 
 @login_required
@@ -263,7 +276,7 @@ def set_user_section(request):
     userId = request.POST['userId']
     userSection = request.POST['userSection']
 
-    profile = UserProfile.objects.get(user_id=userId)
+    profile = UserProfile.objects.get(id=userId)
 
     if int(userSection) > 0:
         profile.section = Section.objects.get(id=userSection)
@@ -285,7 +298,7 @@ def set_user_role(request):
     userId = request.POST['userId']
     isInstructor = request.POST['userRole']
 
-    profile = UserProfile.objects.get(user_id=userId)
+    profile = UserProfile.objects.get(id=userId)
 
     profile.is_instructor = bool(isInstructor)
     profile.save()
@@ -365,6 +378,16 @@ def deactivate_user(request, id):
     user = UserProfile.objects.get(id=id).user
     user.is_active = False
     user.save()
+
+    return redirect('/users')
+
+
+@login_required
+def delete_user(request, id):
+    profile = UserProfile.objects.get(id=id)
+    user = profile.user
+    profile.delete()
+    user.delete()
 
     return redirect('/users')
 

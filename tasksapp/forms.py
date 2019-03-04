@@ -43,6 +43,11 @@ class RegistrationForm(forms.Form):
     confirm_password = forms.CharField(widget=forms.PasswordInput())
 
 
+    def __init__(self, *args, **kwargs):
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
     def clean(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():

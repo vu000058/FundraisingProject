@@ -35,21 +35,24 @@
           <div class="col-md">
               <div class="form-group">
                   <label>Event Name</label>
-                  <input id="eventName" name="eventName" type="text" class="form-control" maxlength="100" size="10"/>
+                  <input id="eventName" name="eventName" type="text" class="form-control" maxlength="100" size="10"
+                    value="{{searchTerm.eventName}}" />
               </div>
           </div>
 
             <div class="col-md">
               <div class="form-group">
                   <label>Task Name</label>
-                  <input id="task" name="task" type="text" class="form-control" maxlength="100" size="10"/>
+                  <input id="task" name="task" type="text" class="form-control" maxlength="100" size="10"
+                    value="{{searchTerm.task}}" />
               </div>
           </div>
 
             <div class="col-md">
               <div class="form-group">
                   <label>Assignee</label>
-                  <input id="assignee" name="assignee" type="text" class="form-control" maxlength="100" size="10"/>
+                  <input id="assignee" name="assignee" type="text" class="form-control" maxlength="100" size="10"
+                    value="{{searchTerm.assignee}}" />
               </div>
           </div>
 
@@ -59,7 +62,7 @@
                    <select name="status" class="form-control">
                         <option value="">All</option>
                           {% for status in statuses %}
-                              <option value="{{ status }}">
+                              <option value="{{ status }}" {% if status == searchTerm.state %} selected {% endif %}>
                                   {{ status }}
                               </option>
                           {% endfor %}
