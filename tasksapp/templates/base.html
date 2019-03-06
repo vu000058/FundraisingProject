@@ -34,12 +34,22 @@
 
   <body>
   {% if request.user and request.user.profile and not request.user.profile.is_instructor and not request.user.profile.is_instructor and not request.user.profile.section %}
-    <h3>
+  <h3>
+        You have logged in successfully.
+    </h3>
+  <h3>
         You are not in any section.
     </h3>
     <h3>
         Please ask your instructor for your access permission.
     </h3>
+    <h4>
+        <a class="nav-link" href="{% url 'logout' %}">
+          <i class="fas fa-sign-out-alt"></i>
+          Logout <span class="sr-only"></span>
+        </a>
+    </h4>
+
 
   {% else %}
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -61,7 +71,7 @@
                     </h5>
                   </li>
 
-                {% if request.user.profile and request.user.profile.is_instructor %}
+                {% if request.user.is_superuser or request.user.profile and request.user.profile.is_instructor %}
                       <li class="nav-item">
                     <a class="nav-link active" href="{% url 'users' %}">
                         <i class="fas fa-users"></i>

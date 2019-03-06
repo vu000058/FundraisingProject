@@ -19,7 +19,7 @@
         {% csrf_token %}
 
         <div class="row" >
-            {% if request.user.is_instructor %}
+            {% if request.user.is_superuser or request.user.profile.is_instructor %}
             <div class="col-md">
               <div class="form-group">
                   <label>Section</label>

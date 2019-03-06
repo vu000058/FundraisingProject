@@ -20,7 +20,7 @@ task_statuses = ["Unassigned", "Assigned", "Ongoing", "On Hold", "Cancelled", "F
 @login_required
 def index(request):
     if request.method == 'GET':
-        if request.user.profile and request.user.profile.is_instructor:
+        if request.user.is_superuser or request.user.profile and request.user.profile.is_instructor:
             tasks = Task.objects.all().order_by('due_date')
         elif request.user.profile and not request.user.profile.is_instructor\
                 and request.user.profile.section is not None:
