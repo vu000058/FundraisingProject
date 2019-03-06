@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from tasksapp.models import Task, Section, UserProfile, Goal, Event
+from tasksapp.models import Task, Section, UserProfile, FundraisingGoal, DonationDeduction
 from django.utils import timezone
 from django.shortcuts import redirect
 from .forms import SectionForm, RegistrationForm, ChangePasswordForm
@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Count
 import uuid
 
 
@@ -136,7 +137,15 @@ def sections(request):
             name = form.cleaned_data['name']
             term = form.cleaned_data['term']
             year = form.cleaned_data['year']
-            section = Section(name=name, term=term, year=year)
+            event = form.cleaned_data['event']
+            agency = form.cleaned_data['agency']
+            section = Section(
+                name=name,
+                term=term,
+                year=year,
+                event=event,
+                agency=agency
+            )
             section.save()
         return redirect('/sections')
 
@@ -161,21 +170,21 @@ def goals(request):
         amount = request.POST.get("amount", "")
         note = request.POST.get("note", "")
         section = request.POST.get("section")
-        goal = Goal(amount=amount, note=note, section=Section.objects.get(id=section))
+        goal = FundraisingGoal(amount=amount, note=note, section=Section.objects.get(id=section))
         goal.save()
 
     return render(request, "goals.html", {
-        'goals': Goal.objects.all(),
-        'sections': Section.objects.all()
+        'goals': FundraisingGoal.objects.all(),
+        'sections': Section.objects.annotate(goals_count=Count('goals')).filter(goals_count__lt=1)
     })
 
 
 @login_required
 def goal_details(request, id):
-    goal = Goal.objects.get(id=id)
+    goal = FundraisingGoal.objects.get(id=id)
 
     if request.method == 'GET':
-        events = Event.objects.filter(goal=goal)
+        events = DonationDeduction.objects.filter(goal=goal)
         total_raised = 0
         for event in events:
             total_raised += event.raised_amount
@@ -198,7 +207,7 @@ def goal_details(request, id):
             raised_amount = 0
             deducted_amount = amount
 
-        event = Event(
+        event = DonationDeduction(
             goal=goal,
             name=event_name,
             description=event_description,
@@ -211,7 +220,7 @@ def goal_details(request, id):
 
 
 def delete_event(request, id):
-    event = Event.objects.get(id=id)
+    event = DonationDeduction.objects.get(id=id)
     goal_id = event.goal.id
     event.delete()
 

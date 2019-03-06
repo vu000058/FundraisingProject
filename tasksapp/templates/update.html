@@ -16,6 +16,33 @@
              <form action="{% url 'addEditTask' taskId %}" method="post" >
             {% csrf_token %}
              <div class="form-row">
+                 <div class="col">
+                    <label for="section">Event - Agency - Section</label>
+                  <div class="col-sm-12">
+                      <select class="form-control" id="section" name="section">
+                          {% for section in sections %}
+                                <option value="{{ section.id }}">
+                                    {% if section.event %}
+                                        {{ section.event }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                        -
+                                    {% if section.agency %}
+                                        {{ section.agency }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                        -
+                                    {{ section }}
+                                </option>
+                          {% endfor %}
+                      </select>
+                  </div>
+                </div>
+              </div>
+
+             <div class="form-row mt-3">
                 <div class="col">
                   <label for="eventName">Event Name</label>
                   <div class="col-sm-10">
@@ -83,16 +110,7 @@
               </select>
                   </div>
                 </div>
-                <div class="col">
-                    <label for="section">Section</label>
-                  <div class="col-sm-6">
-                      <select class="form-control" id="section" name="section">
-                          {% for section in sections %}
-                                <option value="{{ section.id }}">{{ section }}</option>
-                          {% endfor %}
-                      </select>
-                  </div>
-                </div>
+
               </div>
 
               <div class="form-row mt-5">
