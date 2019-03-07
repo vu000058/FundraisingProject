@@ -28,6 +28,7 @@
                   <th scope="col">Agency</th>
                   <th scope="col">Actions</th>
               </tr>
+                 {% if sections and sections|length > 0 %}
                 {% for section in sections %}
                     <tr>
                         <td>
@@ -52,6 +53,12 @@
                       </td>
                     </tr>
                 {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center"><strong>No records</strong></td>
+            </tr>
+        {% endif %}
+
         </table>
     </div>
 

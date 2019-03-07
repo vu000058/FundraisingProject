@@ -75,10 +75,22 @@
 
         <th scope="col" class="text-center">Actions</th>
       </tr>
-      {% for task in tasks %}
+         {% if tasks and tasks|length > 0 %}
+                {% for task in tasks %}
         <tr>
           <td>{{task.section.event}}</td>
-          <td><a href="#" target="_self" onClick="showDesc('{{task.event}}', '{{task.description}}', '{{task.name}}')">{{task.name}}</a></th>
+          <td>
+              <a href="#" target="_self" data-toggle="modal" data-target="#taskDetailsModal"
+                      data-name="{{ task.name }}"
+                      data-creator="{{ task.creator }}"
+                      data-assignee="{{ task.assignee }}"
+                      data-due="{{ task.due_date }}"
+                      data-status="{{ task.status }}"
+                      data-delegator="{{ task.delegator }}"
+                      data-updated="{{ task.update_date }}"
+                      data-description="{{ task.description }}">
+                  {{task.name}}</a>
+            </td>
           <td>{{task.assignee}}</td>
           <td>
               {% if task.status == "Unassigned" %}
@@ -114,6 +126,12 @@
           </td>
         </tr>
     {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center"><strong>No records</strong></td>
+            </tr>
+        {% endif %}
+
     </table>
 
     <!-- Modal -->
@@ -135,6 +153,34 @@
             <a id="deleteTask" href="/" class="btn btn-danger" title="Delete">
                 Delete
             </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- Modal -->
+    <div class="modal fade" id="taskDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Task Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <h5 id="taskNameDetail"></h5>
+             <h5 id="taskCreator"></h5>
+             <h5 id="taskAssignee"></h5>
+             <h5 id="taskDue"></h5>
+             <h5 id="taskStatus"></h5>
+             <h5 id="taskDelegator"></h5>
+             <h5 id="taskUpdated"></h5>
+              <h5 id="taskDescription"></h5>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

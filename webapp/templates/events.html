@@ -66,9 +66,9 @@
    <div class="container-fluid mt-5">
       <h3>Donations & Deductions</h3>
 
- <table class="table table-bordered table-hover" id="events">
+ <table class="table" id="events">
       <tr>
-          <thead class="thead-dark">
+          <thead>
             <th scope="col">Event Name</th>
             <th scope="col">Description</th>
             <th scope="col">Raised Amount</th>
@@ -77,35 +77,43 @@
             <th scope="col">Actions</th>
            </thead>
       </tr>
-          {% for event in events %}
-            <tr>
-              <td>{{event.event_name}}</td>
-              <td>{{event.description}}</td>
-                <td>
-                    {% if event.raised_amount == 0 %}
-                         N/A
-                    {% else %}
-                         {{event.raised_amount}}
-                    {% endif %}
+         {% if events and events|length > 0 %}
+                {% for event in events %}
+                <tr>
+                  <td>{{event.event_name}}</td>
+                  <td>{{event.description}}</td>
+                    <td>
+                        {% if event.raised_amount == 0 %}
+                             N/A
+                        {% else %}
+                             {{event.raised_amount}}
+                        {% endif %}
 
-                </td>
-                <td>
-                    {% if event.deducted_amount == 0 %}
-                         N/A
-                    {% else %}
-                         {{event.deducted_amount}}
-                    {% endif %}
-                </td>
-              <td>{{event.created_date}}</td>
-                <td>
-                    <button type="button" class="btn btn-danger delete-btn"
-                            data-toggle="modal" data-target="#deleteModal"
-                            data-id="{{ event.id }}" data-name="{{ event.event_name }}">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </td>
+                    </td>
+                    <td>
+                        {% if event.deducted_amount == 0 %}
+                             N/A
+                        {% else %}
+                             {{event.deducted_amount}}
+                        {% endif %}
+                    </td>
+                  <td>{{event.created_date}}</td>
+                    <td>
+                        <button type="button" class="btn btn-danger delete-btn"
+                                data-toggle="modal" data-target="#deleteModal"
+                                data-id="{{ event.id }}" data-name="{{ event.event_name }}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center"><strong>No records</strong></td>
             </tr>
-        {% endfor %}
+        {% endif %}
+
+
     </table>
       </div>
 

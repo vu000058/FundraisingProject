@@ -16,7 +16,7 @@
               <div class="form-group">
                 <label for="section">Section</label>
                   <div class="col-sm-6">
-                      <select id="section" name="section" class="form-control">
+                      <select id="section" name="section" class="form-control" required>
                       {% for section in sections %}
                             <option value="{{ section.id }}">{{ section }}</option>
                       {% endfor %}

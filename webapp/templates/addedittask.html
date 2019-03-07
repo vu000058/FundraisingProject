@@ -18,7 +18,7 @@
                   <div class="col">
                     <label for="section">Event - Agency - Section</label>
                   <div class="col-sm-10">
-                      <select class="form-control" id="section" name="section">
+                      <select class="form-control" id="section" name="section" required>
                           {% for section in sections %}
                                 <option value="{{ section.id }}">
                                     {% if section.event %}
@@ -53,7 +53,7 @@
                  <div class="col">
                   <label for="assignee">Assignee</label>
                   <div class="col-sm-10">
-                      <select name="assignee" id="assignee" class="form-control">
+                      <select name="assignee" id="assignee" class="form-control" required>
                           <option value="0"></option>
                            {% for assignee in assignees %}
                                 <option value="{{ assignee.id }}"
@@ -88,7 +88,13 @@
                 <div class="col">
                    <label for="desc">Description</label>
                   <div class="col-sm-10">
-                    <textarea  class="form-control" name="desc" id="desc">{{ task.description }}</textarea>
+
+                      {% if task.description %}
+                         <textarea  class="form-control" name="desc" id="desc">{{ task.description }}</textarea>
+                      {% else %}
+                       <textarea  class="form-control" name="desc" id="desc"></textarea>
+                      {% endif%}
+
                   </div>
                 </div>
               </div>
@@ -101,12 +107,27 @@
                   </div>
                 </div>
                 <div class="col">
-                     <label for="delegater">Delegater</label>
+                     <label for="delegator">Delegator</label>
                   <div class="col-sm-6">
-                       <select class="form-control" id="delegater" name="delegater">
-                    <option value="Instructor">Instructor</option>
-                    <option value="Chair of the meeting">Chair of the meeting</option>
-                    <option value="Sub-group lead">Sub-group lead</option>
+                      <select class="form-control" id="delegator" name="delegator">
+                    <option value="Instructor"
+                        {% if task.delegator and task.delegator == "Instructor" %}
+                              selected
+                          {% endif %}>
+                        Instructor
+                    </option>
+                    <option value="Chair of the meeting"
+                        {% if task.delegator and task.delegator == "Chair of the meeting" %}
+                              selected
+                          {% endif %}>
+                        Chair of the meeting
+                    </option>
+                    <option value="Sub-group lead"
+                        {% if task.delegator and task.delegator == "Sub-group lead" %}
+                              selected
+                          {% endif %}>
+                        Sub-group lead
+                    </option>
               </select>
                   </div>
                 </div>

@@ -55,7 +55,9 @@ def add_edit_task(request, id=0):
         sections = Section.objects.all()
         users = User.objects.all()
 
-        if is_admin(request.user):
+        if len(sections) == 0:
+            assignees = []
+        elif is_admin(request.user):
             assignees = UserProfile.objects.filter(section=sections[0], is_instructor=False)
         else:
             assignees = UserProfile.objects.filter(section=request.user.profile.section, is_instructor=False)
@@ -71,6 +73,7 @@ def add_edit_task(request, id=0):
         name = request.POST.get("task", "")
         description = request.POST.get("desc", "").strip()
         assigneeId = int(request.POST.get("assignee", "0"))
+        delegator = request.POST.get("delegator", "")
         due_date = request.POST.get("duedate", "")
         status = request.POST.get("status", "")
 
@@ -88,6 +91,7 @@ def add_edit_task(request, id=0):
             task.assignee = assignee
             task.due_date = due_date
             task.status = status
+            task.delegator = delegator
             task.update_date = timezone.now()
             task.save()
         else:
@@ -98,6 +102,7 @@ def add_edit_task(request, id=0):
                 assignee=assignee,
                 creator=request.user,
                 section=section,
+                delegator=delegator,
                 due_date=due_date,
             )
             task.save()
@@ -387,10 +392,10 @@ def set_user_section(request):
 def set_user_role(request):
     userId = request.POST['userId']
     isInstructor = request.POST['userRole']
+    is_instructor = True if isInstructor == "true" else False
 
     profile = UserProfile.objects.get(id=userId)
-
-    profile.is_instructor = bool(isInstructor)
+    profile.is_instructor = is_instructor
     profile.save()
 
     messages.add_message(
@@ -492,6 +497,16 @@ def delete_user(request, id):
     user.delete()
 
     return redirect('/users')
+
+
+@login_required
+@user_passes_test(is_admin, HOME_PATH)
+def delete_goal(request, id):
+    goal = FundraisingGoal.objects.get(id=id)
+    goal.delete()
+
+    return redirect('/goals')
+
 
 create_test_users()
 

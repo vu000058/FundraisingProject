@@ -17,7 +17,8 @@
           <th scope="col" style="width: 150px;">Status</th>
             <th scope="col" class="md-5">Actions</th>
       </tr>
-     {% for profile in user_profiles %}
+         {% if user_profiles and user_profiles|length > 0 %}
+                {% for profile in user_profiles %}
         <tr>
           <td>{{profile.user.username}}</td>
             <td>{{profile.user.email}}</td>
@@ -95,6 +96,12 @@
               </td>
         </tr>
         {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="6" class="text-center"><strong>No records</strong></td>
+            </tr>
+        {% endif %}
+
     </table>
 
     <!-- Modal -->
