@@ -5,89 +5,87 @@
 
    <h3>Users</h3>
     <hr/>
-    <div class="container">
-        <table id="tasks" class="table">
-          <tr>
-              <th scope="col">Username</th>
-              <th scope="col">Email</th>
-              <th scope="col">Section</th>
-              <th scope="col">Role</th>
-              <th scope="col">Status</th>
-                <th scope="col" class="md-5">Action</th>
-          </tr>
-         {% for profile in user_profiles %}
-            <tr>
-              <td>{{profile.user.username}}</td>
-                <td>{{profile.user.email}}</td>
-                <td>
-                    <form action="{% url 'set_user_section' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="userId" value="{{ profile.id }}" />
-                        <select class="form-control" name="userSection" onchange="this.form.submit()">
-                            <option value="0"
-                                    {% if not profile.section %}
+    <table id="tasks" class="table">
+      <tr>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">Section</th>
+          <th scope="col">Role</th>
+          <th scope="col">Status</th>
+            <th scope="col" class="md-5">Action</th>
+      </tr>
+     {% for profile in user_profiles %}
+        <tr>
+          <td>{{profile.user.username}}</td>
+            <td>{{profile.user.email}}</td>
+            <td>
+                <form action="{% url 'set_user_section' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="userId" value="{{ profile.id }}" />
+                    <select class="form-control" name="userSection" onchange="this.form.submit()">
+                        <option value="0"
+                                {% if not profile.section %}
+                                    selected
+                                {% endif %}
+                        ></option>
+                          {% for section in sections %}
+                                <option value="{{ section.id }}"
+                                    {% if profile.section and profile.section == section %}
                                         selected
                                     {% endif %}
-                            ></option>
-                              {% for section in sections %}
-                                    <option value="{{ section.id }}"
-                                        {% if profile.section and profile.section == section %}
-                                            selected
-                                        {% endif %}
-                                    >{{ section }}</option>
-                              {% endfor %}
-                        </select>
-                    </form>
-                </td>
-                <td>
-                    <form action="{% url 'set_user_role' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="userId" value="{{ profile.id }}" />
-                        <select class="form-control" name="userRole" onchange="this.form.submit()">
-                            <option value="true"
-                                {% if profile.is_instructor %}
-                                    selected
-                                {% endif %}
-                            >Instructor</option>
-                            <option value="false"
-                                {% if not profile.is_instructor %}
-                                    selected
-                                {% endif %}
-                            >Student</option>
-                        </select>
-                    </form>
-                </td>
-                <td>
-                    {% if profile.user.is_active %}
-                        Active
-                    {% else %}
-                        Inactive
-                    {% endif %}
-                </td>
-                  <td>
-                      {% if profile.user.is_active %}
-                          <form action="{% url 'deactivate_user' profile.id %}">
-                              <button type="submit" class="btn btn-dark" title="Deactivate User">
-                                  <i class="fas fa-lock"></i>
-                              </button>
-                          </form>
-                      {% else %}
-                           <form action="{% url 'activate_user' profile.id %}">
-                               <button type="submit" class="btn btn-green" title="Activate User">
-                                  <i class="fas fa-lock-open"></i>
-                              </button>
-                          </form>
-                      {% endif %}
+                                >{{ section }}</option>
+                          {% endfor %}
+                    </select>
+                </form>
+            </td>
+            <td>
+                <form action="{% url 'set_user_role' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="userId" value="{{ profile.id }}" />
+                    <select class="form-control" name="userRole" onchange="this.form.submit()">
+                        <option value="true"
+                            {% if profile.is_instructor %}
+                                selected
+                            {% endif %}
+                        >Instructor</option>
+                        <option value="false"
+                            {% if not profile.is_instructor %}
+                                selected
+                            {% endif %}
+                        >Student</option>
+                    </select>
+                </form>
+            </td>
+            <td>
+                {% if profile.user.is_active %}
+                    Active
+                {% else %}
+                    Inactive
+                {% endif %}
+            </td>
+              <td>
+                  {% if profile.user.is_active %}
+                      <form action="{% url 'deactivate_user' profile.id %}">
+                          <button type="submit" class="btn btn-dark" title="Deactivate User">
+                              <i class="fas fa-lock"></i>
+                          </button>
+                      </form>
+                  {% else %}
+                       <form action="{% url 'activate_user' profile.id %}">
+                           <button type="submit" class="btn btn-green" title="Activate User">
+                              <i class="fas fa-lock-open"></i>
+                          </button>
+                      </form>
+                  {% endif %}
 
-                      <button type="button" class="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal"
-                            data-id="{{ profile.id }}" data-name="{{ profile.user.username }}">
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
-                  </td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+                  <button type="button" class="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal"
+                        data-id="{{ profile.id }}" data-name="{{ profile.user.username }}">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+              </td>
+        </tr>
+        {% endfor %}
+    </table>
 
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -25,12 +25,15 @@ EVENT_TYPE = (
     ("Deduction", "Deduction")
 )
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class SectionForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(), required=True)
     year = forms.ChoiceField(choices=YEAR_CHOICES, label="Year", widget=forms.Select(), required=True)
     term = forms.ChoiceField(choices=TERM_CHOICES, label="Term",  widget=forms.Select(), required=True)
     event = forms.CharField(widget=forms.TextInput(), required=False)
+    event_due = forms.DateField(widget=DateInput(), required=False)
     agency = forms.CharField(widget=forms.TextInput(), required=False)
 
     def __init__(self, *args, **kwargs):

@@ -7,6 +7,7 @@ class Section(models.Model):
     year = models.IntegerField()
     term = models.CharField(max_length=10)
     event = models.CharField(max_length=100)
+    event_due = models.DateField(null=True)
     agency = models.CharField(max_length=100)
 
     def __str__(self):

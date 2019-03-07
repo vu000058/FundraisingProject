@@ -48,7 +48,7 @@ def add_edit_task(request, id=0):
         task = Task.objects.get(id=id) if id > 0 else Task()
         sections = Section.objects.all()
         users = User.objects.all()
-        print(task.__dict__)
+
         return render(request, "addedittask.html", {
             'task': task,
             'sections': sections,
@@ -68,7 +68,6 @@ def add_edit_task(request, id=0):
 
         if id > 0:
             task = Task.objects.get(id=id)
-            task.event = event
             task.name = name
             task.description = description
             # task.assignee = request.POST.get("assignee", "")
@@ -78,7 +77,6 @@ def add_edit_task(request, id=0):
             task.save()
         else:
             task = Task(
-                event=event,
                 name=name,
                 description=description,
                 status=status,
@@ -99,8 +97,9 @@ def search(request):
     task = request.POST.get("task").strip()
     assignee = request.POST.get("assignee").strip()
     state = request.POST.get("status").strip()
-    objects = Task.objects.all()
+    section_id = int(request.POST.get("sectionId"))
 
+    objects = Task.objects.all()
     if event_name:
         objects = objects.filter(event__icontains=event_name)
     if task:
@@ -109,17 +108,21 @@ def search(request):
         objects = objects.filter(assignee__icontains=assignee)
     if state:
         objects = objects.filter(status=state)
+    if int(section_id) > 0:
+        objects = objects.filter(section=Section.objects.get(id=section_id))
 
     search_term = {
         'eventName': event_name,
         'task': task,
         'assignee': assignee,
         'state': state,
+        'sectionId': section_id,
     }
 
     return render(request, "index.html", {
         'tasks': objects.order_by('due_date'),
         'statuses': task_statuses,
+        'sections': Section.objects.all(),
         'searchTerm': search_term
     })
 
@@ -132,11 +135,21 @@ def sections(request):
 @login_required
 def add_edit_section(request, id=0):
     if request.method == 'GET':
-        section = SectionForm()
+        form = SectionForm()
         if id > 0:
             section = Section.objects.get(id=id)
+            form = SectionForm(
+                initial={
+                    'name': section.name,
+                    'term': section.term,
+                    'year': section.year,
+                    'event': section.event,
+                    'event_due': section.event_due,
+                    'agency': section.agency
+                }
+            )
 
-        return render(request, "addeditsection.html", {'form': section, 'sectionId': id})
+        return render(request, "addeditsection.html", {'form': form, 'sectionId': id})
     elif request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = SectionForm(request.POST)
@@ -146,7 +159,10 @@ def add_edit_section(request, id=0):
             term = form.cleaned_data['term']
             year = form.cleaned_data['year']
             event = form.cleaned_data['event']
+            event_due = form.cleaned_data['event_due']
             agency = form.cleaned_data['agency']
+            print ('due')
+            print (event_due)
 
             if id > 0:
                 section = Section.objects.get(id=id)
@@ -154,6 +170,7 @@ def add_edit_section(request, id=0):
                 section.term = term
                 section.year = year
                 section.event = event
+                section.event_due = event_due
                 section.agency = agency
             else:
                 section = Section(
@@ -161,11 +178,45 @@ def add_edit_section(request, id=0):
                     term=term,
                     year=year,
                     event=event,
+                    event_due=event_due,
                     agency=agency
                 )
             section.save()
 
         return redirect('/sections')
+
+
+@login_required
+def add_edit_goal(request, id=0):
+    if request.method == "POST":
+        amount = request.POST.get("amount", "")
+        note = request.POST.get("note", "")
+        section = request.POST.get("section")
+
+        if id > 0:
+            goal = FundraisingGoal.objects.get(id=id)
+            goal.amount = amount
+            goal.note = note
+            goal.save()
+        else:
+            goal = FundraisingGoal(amount=amount, note=note, section=Section.objects.get(id=section))
+            goal.save()
+
+        return redirect('/goals')
+
+    else:
+        if id > 0:
+            goal = FundraisingGoal.objects.get(id=id)
+            sections = [goal.section]
+        else:
+            goal = FundraisingGoal()
+            sections = Section.objects.annotate(goals_count=Count('goals')).filter(goals_count__lt=1)
+
+        return render(request, "addeditgoal.html", {
+            'goal': goal,
+            'goalId': id,
+            'sections': sections
+        })
 
 
 @login_required
@@ -184,17 +235,7 @@ def users(request):
 
 @login_required
 def goals(request):
-    if request.method == "POST":
-        amount = request.POST.get("amount", "")
-        note = request.POST.get("note", "")
-        section = request.POST.get("section")
-        goal = FundraisingGoal(amount=amount, note=note, section=Section.objects.get(id=section))
-        goal.save()
-
-    return render(request, "goals.html", {
-        'goals': FundraisingGoal.objects.all(),
-        'sections': Section.objects.annotate(goals_count=Count('goals')).filter(goals_count__lt=1)
-    })
+    return render(request, "goals.html", { 'goals': FundraisingGoal.objects.all() })
 
 
 @login_required
@@ -218,6 +259,7 @@ def goal_details(request, id):
         event_description = request.POST.get("description", "")
         amount = request.POST.get("amount", "")
         type = request.POST.get("type", "")
+
         if type == "Donation":
             raised_amount = amount
             deducted_amount = 0
@@ -227,7 +269,7 @@ def goal_details(request, id):
 
         event = Donation(
             goal=goal,
-            name=event_name,
+            event_name=event_name,
             description=event_description,
             raised_amount=raised_amount,
             deducted_amount=deducted_amount

@@ -2,12 +2,10 @@
 
 {% block content %}
 
-
-    <div class="mt-5">
-       <h3>Sections</h3>
+    <div>
+       <h3>Sections - Events</h3>
         <hr/>
-        <div class="container">
-            <div>
+            <div class="mb-5">
                 <a href="{% url 'add_edit_section' 0 %}" class="btn btn-primary">
                     Add Section
                 </a>
@@ -17,6 +15,7 @@
               <tr>
                   <th scope="col">Section</th>
                   <th scope="col">Event</th>
+                  <th scope="col">Event Due Date</th>
                   <th scope="col">Agency</th>
                   <th scope="col">Actions</th>
               </tr>
@@ -24,6 +23,7 @@
                     <tr>
                         <td>{{section}}</td>
                         <td>{{section.event}}</td>
+                        <td>{{section.event_due}}</td>
                         <td>{{section.agency}}</td>
                       <td>
                           <a href="{% url 'add_edit_section' section.id %}" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></a>
@@ -36,7 +36,6 @@
                     </tr>
                 {% endfor %}
         </table>
-        </div>
     </div>
 
 <!-- Modal -->

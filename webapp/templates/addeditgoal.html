@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        <h3>
+            {% if sectionId > 0 %}
+                Edit Fundraising Goal
+            {% else %}
+                Create Fundraising Goal
+            {% endif %}
+        </h3>
+        <hr/>
+          <form action="{% url 'add_edit_goal' goalId %}" method="post">
+            {% csrf_token %}
+              <div class="form-group">
+                <label for="section">Section</label>
+                  <div class="col-sm-6">
+                      <select id="section" name="section" class="form-control">
+                      {% for section in sections %}
+                            <option value="{{ section.id }}">{{ section }}</option>
+                      {% endfor %}
+                  </select>
+                  </div>
+
+              </div>
+              <div class="form-group">
+                <label for="amount">Amount</label>
+                  <div class="col-sm-3">
+                       <input id="amount" class="form-control" name="amount" type="number" value="{{goal.amount}}" required/>
+                  </div>
+
+              </div>
+              <div class="form-group">
+                <label for="note">Note</label>
+                  <div class="col-sm-3">
+                      <input id="note" class="form-control" name="note" value="{{goal.note}}" type="text" />
+                  </div>
+
+              </div>
+
+              <div class="form-group">
+                  <button type="submit" class="btn btn-primary">
+                    {% if goalId > 0 %}
+                        Update
+                    {% else %}
+                        Create
+                    {% endif %}
+              </button>
+              <a href="/goals" class="btn btn-light ml-3">Cancel</a>
+              </div>
+          </form>
+    </div>
+
+{% endblock %}

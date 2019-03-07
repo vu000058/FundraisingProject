@@ -10,6 +10,14 @@
           min-height: 75rem;
           padding-top: 4.5rem;
         }
+
+        #left-nav li {
+            font-size: 18px;
+        }
+
+        #left-nav li a:hover {
+            color: #007bff;
+        }
     </style>
 
     <meta charset="utf-8">
@@ -34,27 +42,41 @@
 
   <body>
   {% if request.user and request.user.profile and not request.user.profile.is_instructor and not request.user.profile.is_instructor and not request.user.profile.section %}
-  <h3>
-        You have logged in successfully.
-    </h3>
-  <h3>
-        You are not in any section.
-    </h3>
-    <h3>
-        Please ask your instructor for your access permission.
-    </h3>
-    <h4>
-        <a class="nav-link" href="{% url 'logout' %}">
-          <i class="fas fa-sign-out-alt"></i>
-          Logout <span class="sr-only"></span>
-        </a>
-    </h4>
-
-
+    <div class="container">
+        <h3>You have logged in successfully.</h3>
+        <h3>However, you are not in any section.</h3>
+        <h3>Please contact your instructor for your access permission.</h3>
+        <h4>
+            <a class="nav-link" href="{% url 'logout' %}">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout <span class="sr-only"></span>
+            </a>
+        </h4>
+    </div>
   {% else %}
+
+  {% if request.user and request.user.profile and not request.user.profile.is_instructor and request.user.profile.section and request.user.profile.section.event and request.user.profile.section.event_due %}
+    <nav class="navbar fixed-top flex-md-nowrap p-0 shadow"
+         style="height: 85px;background-color: orange; color: black;">
+      <div style="margin-top: 50px; margin-left: 25px; font-size: 18px; font-weight: bold;">
+          Event: {{ request.user.profile.section.event }}
+          on
+          {{  request.user.profile.section.event_due }}
+           -
+           {{  request.user.profile.section.event_due|timeuntil }} remaining
+      </div>
+    </nav>
+  {% endif %}
+
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="nav-link" href="#"><img src="{% static 'tasksapp/logo.png' %}" width="50px"></a>
-      <a class="navbar-brand" href="#" style="font-size: 18px">FAM1255 - Community Service Learning</a>
+      <a class="navbar-brand" href="/" style="font-size: 18px">
+          FAM1255 - Community Service Learning
+
+          {% if request.user and request.user.profile and not request.user.profile.is_instructor %}
+           - Section: {{ request.user.profile.section }}
+          {% endif %}
+      </a>
       <ul class="navbar-nav px-3">
 
       </ul>
@@ -64,7 +86,7 @@
     <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
-            <ul class="nav flex-column">
+            <ul class="nav flex-column" id="left-nav">
                   <li class="nav-item">
                     <h5 class="nav-link">
                       User: {{ user.username }} <span class="sr-only"></span>
@@ -72,34 +94,46 @@
                   </li>
 
                 {% if request.user.is_superuser or request.user.profile and request.user.profile.is_instructor %}
-                      <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'users' %}">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users' %}">
                         <i class="fas fa-users"></i>
                       Users <span class="sr-only"></span>
+                    </a>
+                  </li>
+
+                    <li class="nav-item">
+                    <a class="nav-link" href="{% url 'sections' %}">
+                      <i class="fas fa-address-book"></i>
+                      Sections <span class="sr-only"></span>
                     </a>
                   </li>
                 {% endif %}
 
                   <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'index' %}">
+                    <a class="nav-link" href="{% url 'index' %}">
                      <i class="fas fa-tasks"></i> Tasks <span class="sr-only">(current)</span>
                     </a>
                   </li>
 
 
+                {% if request.user.is_superuser or request.user.profile and request.user.profile.is_instructor %}
                   <li class="nav-item">
                     <a class="nav-link" href="{% url 'goals' %}">
                       <i class="fas fa-funnel-dollar"></i>
                        Fundraising Goals <span class="sr-only"></span>
                     </a>
                   </li>
+                {% else %}
+                    {% if request.user.profile.section.goals.all|length > 0 %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'goal_details' request.user.profile.section.goals.all.0.id %}">
+                          <i class="fas fa-funnel-dollar"></i>
+                           Fundraising Progress<span class="sr-only"></span>
+                        </a>
+                      </li>
+                    {% endif %}
+                {% endif %}
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'sections' %}">
-                      <i class="fas fa-address-book"></i>
-                      Sections <span class="sr-only"></span>
-                    </a>
-                  </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'change_password' %}">

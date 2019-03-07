@@ -3,47 +3,13 @@
 
 {% block content %}
     <div>
-        <h3>Create Goal</h3>
+     <h3>Fundraising Goals</h3>
         <hr/>
-
-        <div class="container">
-          <form action="/goals/" method="post">
-            {% csrf_token %}
-              <div class="form-group">
-                <label for="section">Section</label>
-                  <div class="col-sm-6">
-                      <select id="section" name="section" class="form-control">
-                      {% for section in sections %}
-                            <option value="{{ section.id }}">{{ section }}</option>
-                      {% endfor %}
-                  </select>
-                  </div>
-
-              </div>
-              <div class="form-group">
-                <label for="amount">Amount</label>
-                  <div class="col-sm-3">
-                       <input id="amount" class="form-control" name="amount" type="number" required/>
-                  </div>
-
-              </div>
-              <div class="form-group">
-                <label for="note">Note</label>
-                  <div class="col-sm-3">
-                      <input id="note" class="form-control" name="note" type="text" />
-                  </div>
-
-              </div>
-
-              <button type="submit" class="btn btn-primary">Add Goal</button>
-          </form>
+        <div>
+            <a href="{% url 'add_edit_goal' 0 %}" class="btn btn-primary">
+                Add Fundraising Goal
+            </a>
         </div>
-    </div>
-
-
-    <div class="mt-5">
-     <h3>Goals</h3><hr/>
-    <div class="container">
          <table class="table" cellspacing="2" border="1">
       <tr>
          <th scope="col">Goal</th>
@@ -59,13 +25,16 @@
             <td>{{goal.amount}}$</td>
             <td>{{goal.note}}</td>
             <td>
-                <a href="{% url 'goal_details' goal.id %}" class="btn btn-dark">View Details</a>
+                <a href="{% url 'goal_details' goal.id %}" class="btn btn-dark">View Progress</a>
+
+                <a href="{% url 'add_edit_goal' goal.id %}" class="btn btn-primary">
+                    Edit
+                </a>
                 <a href="/goals" class="btn btn-dark">Delete Goal</a>
             </td>
         </tr>
     {% endfor %}
     </table>
-    </div>
 
     </div>
 

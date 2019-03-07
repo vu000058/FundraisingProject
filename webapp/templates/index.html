@@ -6,12 +6,9 @@
             font-size: 14px;
         }
     </style>
-    {% if request.user and request.user.profile and not request.user.profile.is_instructor %}
-      <h1> Section: {{ request.user.profile.section }} </h1>
-    {% endif %}
-    <h1>Fundraising Tasks Management</h1>
 
-    <h3>Tasks</h3><hr/>
+    <h3>Tasks</h3>
+    <hr/>
 
     <a href="/addedit/0" class="btn btn-primary mb-3">Add Task</a>
 
@@ -23,10 +20,10 @@
             <div class="col-md">
               <div class="form-group">
                   <label>Section</label>
-                  <select class="form-control" name="userSection" onchange="this.form.submit()">
+                  <select class="form-control" name="sectionId">
                         <option value="0">All</option>
                           {% for section in sections %}
-                                <option value="{{ section.id }}">{{ section }}</option>
+                                <option value="{{ section.id }}" {% if section.id == searchTerm.sectionId %} selected {% endif %}>{{ section }}</option>
                           {% endfor %}
                   </select>
               </div>

@@ -2,54 +2,70 @@
 
 {% block content %}
     <div>
-        <h3>Create Section</h3>
+        <h3>
+            {% if sectionId > 0 %}
+                Edit Section - Event
+            {% else %}
+                Create Section - Event
+            {% endif %}
+        </h3>
         <hr/>
+      <form action="{% url 'add_edit_section' sectionId %}" method="post">
+        {% csrf_token %}
 
-        <div class="container">
-          <form action="{% url 'add_edit_section' sectionId %}" method="post">
-            {% csrf_token %}
-
-              <div class="form-row">
-                <div class="col">
-                  <label for="section">Section Name</label>
-                  <div class="col-sm-10">
-                    {{ form.name }}
-                  </div>
-                </div>
-                <div class="col">
-                  <label for="term">Term</label>
-                  <div class="col-sm-10">
-                       {{ form.term }}
-                  </div>
-                </div>
-                  <div class="col">
-                  <label for="year">Year</label>
-                  <div class="col-sm-10">
-                       {{ form.year }}
-                  </div>
-                </div>
+          <div class="form-row">
+            <div class="col">
+              <label for="section">Section Name</label>
+              <div class="col-sm-10">
+                {{ form.name }}
               </div>
-
-              <div class="form-row mt-5">
-                <div class="col">
-                  <label for="event">Event</label>
-                  <div class="col-sm-10">
-                    {{ form.event }}
-                  </div>
-                </div>
-                <div class="col">
-                  <label for="agency">Agency</label>
-                  <div class="col-sm-10">
-                       {{ form.agency }}
-                  </div>
-                </div>
+            </div>
+            <div class="col">
+              <label for="term">Term</label>
+              <div class="col-sm-10">
+                   {{ form.term }}
               </div>
-
-              <div class="form-row mt-5">
-                  <button type="submit" class="btn btn-primary">Add Section</button>
+            </div>
+              <div class="col">
+              <label for="year">Year</label>
+              <div class="col-sm-10">
+                   {{ form.year }}
               </div>
-          </form>
-        </div>
+            </div>
+          </div>
+
+          <div class="form-row mt-5">
+            <div class="col">
+              <label for="event">Event</label>
+              <div class="col-sm-10">
+                {{ form.event }}
+              </div>
+            </div>
+              <div class="col">
+              <label for="agency">Event Due Date</label>
+              <div class="col-sm-7">
+                   {{ form.event_due }}
+              </div>
+            </div>
+            <div class="col">
+              <label for="agency">Agency</label>
+              <div class="col-sm-10">
+                   {{ form.agency }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row mt-5">
+              <button type="submit" class="btn btn-primary">
+                    {% if sectionId > 0 %}
+                        Update
+                    {% else %}
+                        Create
+                    {% endif %}
+              </button>
+              <a href="/sections" class="btn btn-light ml-3">Cancel</a>
+          </div>
+      </form>
     </div>
 
 {% endblock %}
