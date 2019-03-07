@@ -2,17 +2,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+    <style>
+        .badge-text {
+            font-size: 14px;
+        }
+    </style>
    <h3>Users</h3>
-    <hr/>
     <table id="tasks" class="table">
       <tr>
           <th scope="col">Username</th>
           <th scope="col">Email</th>
           <th scope="col">Section</th>
-          <th scope="col">Role</th>
-          <th scope="col">Status</th>
-            <th scope="col" class="md-5">Action</th>
+          <th scope="col" style="width: 200px;">Role</th>
+          <th scope="col" style="width: 150px;">Status</th>
+            <th scope="col" class="md-5">Actions</th>
       </tr>
      {% for profile in user_profiles %}
         <tr>
@@ -58,13 +61,18 @@
             </td>
             <td>
                 {% if profile.user.is_active %}
-                    Active
-                {% else %}
-                    Inactive
-                {% endif %}
+                     <span class="badge badge-success badge-text">
+                         Active
+                     </span>
+                  {% else %}
+                      <span class="badge badge-danger badge-text">
+                          Inactive
+                      </span>
+                  {% endif %}
             </td>
               <td>
-                  {% if profile.user.is_active %}
+                  <div style="display: inline-flex;">
+                      {% if profile.user.is_active %}
                       <form action="{% url 'deactivate_user' profile.id %}">
                           <button type="submit" class="btn btn-dark" title="Deactivate User">
                               <i class="fas fa-lock"></i>
@@ -78,10 +86,12 @@
                       </form>
                   {% endif %}
 
-                  <button type="button" class="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal"
+                  <button type="button" class="btn btn-danger delete-btn ml-3" data-toggle="modal" data-target="#deleteModal"
                         data-id="{{ profile.id }}" data-name="{{ profile.user.username }}">
                     <i class="fas fa-trash-alt"></i>
                   </button>
+                  </div>
+
               </td>
         </tr>
         {% endfor %}

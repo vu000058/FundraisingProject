@@ -17,7 +17,7 @@
                  {% if request.user.is_superuser or request.user.profile and request.user.profile.is_instructor %}
                   <div class="col">
                     <label for="section">Event - Agency - Section</label>
-                  <div class="col-sm-12">
+                  <div class="col-sm-10">
                       <select class="form-control" id="section" name="section">
                           {% for section in sections %}
                                 <option value="{{ section.id }}">
@@ -53,7 +53,18 @@
                  <div class="col">
                   <label for="assignee">Assignee</label>
                   <div class="col-sm-10">
-                       <input id="assignee" class="form-control" name="assignee" type="text" maxlength="100" />
+                      <select name="assignee" id="assignee" class="form-control">
+                          <option value="0"></option>
+                           {% for assignee in assignees %}
+                                <option value="{{ assignee.id }}"
+                                  {% if task.assignee and task.assignee == assignee.user %}
+                                      selected
+                                  {% endif %}>
+                                    {{ assignee.name }}
+                                </option>
+                          {% endfor %}
+                      </select>
+
                   </div>
                 </div>
               </div>
@@ -77,9 +88,7 @@
                 <div class="col">
                    <label for="desc">Description</label>
                   <div class="col-sm-10">
-                    <textarea  class="form-control" name="desc" id="desc"
-                               value="{{ task.description }}" >
-                    </textarea>
+                    <textarea  class="form-control" name="desc" id="desc">{{ task.description }}</textarea>
                   </div>
                 </div>
               </div>
@@ -116,4 +125,5 @@
       </form>
     </div>
 
+<script src="../static/tasksapp/js/addtask.js"></script>
 {% endblock %}

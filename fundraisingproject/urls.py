@@ -44,5 +44,6 @@ urlpatterns = [
     path('delete_event/<int:id>', views.delete_event, name='delete_event'),
     path('change_password/', views.change_password, name='change_password'),
     path('add_edit_section/<int:id>', views.add_edit_section, name='add_edit_section'),
-    path('add_edit_goal/<int:id>', views.add_edit_goal, name='add_edit_goal')
+    path('add_edit_goal/<int:id>', views.add_edit_goal, name='add_edit_goal'),
+    path('assignees/', views.assignees, name='assignees')
 ]

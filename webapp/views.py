@@ -10,6 +10,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count
+from django.contrib.auth.decorators import user_passes_test
 import uuid
 
 
@@ -17,6 +18,11 @@ task_statuses = ["Unassigned", "Assigned", "Ongoing", "On Hold", "Cancelled", "F
 # request where the parts of the database from models.py are used
 #first if for the GET that orders all the tasks by due date, default page
 #elif has the POST where it creates the user input and stores it in the db
+HOME_PATH = '/'
+
+def is_admin(user):
+    return user.is_superuser or user.profile and user.profile.is_instructor
+
 
 @login_required
 def index(request):
@@ -49,28 +55,37 @@ def add_edit_task(request, id=0):
         sections = Section.objects.all()
         users = User.objects.all()
 
+        if is_admin(request.user):
+            assignees = UserProfile.objects.filter(section=sections[0], is_instructor=False)
+        else:
+            assignees = UserProfile.objects.filter(section=request.user.profile.section, is_instructor=False)
+
         return render(request, "addedittask.html", {
             'task': task,
             'sections': sections,
             'users': users,
             'taskId': id,
+            'assignees': assignees,
             'statuses': task_statuses})
     else:
-        event = request.POST.get("eventName", "")
         name = request.POST.get("task", "")
-        description = request.POST.get("desc", "")
-        assignee = request.POST.get("assignee", "")
+        description = request.POST.get("desc", "").strip()
+        assigneeId = int(request.POST.get("assignee", "0"))
         due_date = request.POST.get("duedate", "")
-        # creator = request.POST.get("reporter", "")
         status = request.POST.get("status", "")
-        section = Section.objects.get(id=request.POST.get("section"))
-        update_date = timezone.now()
+
+        if is_admin(request.user):
+            section = Section.objects.get(id=request.POST.get("section"))
+        else:
+            section = request.user.profile.section
+
+        assignee = UserProfile.objects.get(id=assigneeId).user if assigneeId > 0 else None
 
         if id > 0:
             task = Task.objects.get(id=id)
             task.name = name
             task.description = description
-            # task.assignee = request.POST.get("assignee", "")
+            task.assignee = assignee
             task.due_date = due_date
             task.status = status
             task.update_date = timezone.now()
@@ -80,9 +95,10 @@ def add_edit_task(request, id=0):
                 name=name,
                 description=description,
                 status=status,
+                assignee=assignee,
                 creator=request.user,
                 section=section,
-                due_date=due_date
+                due_date=due_date,
             )
             task.save()
 
@@ -93,18 +109,14 @@ def add_edit_task(request, id=0):
 #search function for when you want to search by event name, task, assignee, duedate etc
 @login_required
 def search(request):
-    event_name = request.POST.get("eventName")
     task = request.POST.get("task")
-    assignee = request.POST.get("assignee")
     state = request.POST.get("status")
-    section_id = int(request.POST.get("sectionId"))
+    section_id = int(request.POST.get("sectionId", "0"))
 
-    objects = Task.objects.all()
-    if event_name:
-        event_name = event_name.strip()
-        objects = objects.filter(event__icontains=event_name)
+    if is_admin(request.user):
+        objects = Task.objects.all()
     else:
-        event_name = ''
+        objects = Task.objects.filter(section=request.user.profile.section)
 
     if task:
         task = task.strip()
@@ -112,21 +124,13 @@ def search(request):
     else:
         task = ''
 
-    if assignee:
-        assignee = assignee.strip()
-        objects = objects.filter(assignee__icontains=assignee)
-    else:
-        assignee = ''
-
     if state:
         objects = objects.filter(status=state)
     if int(section_id) > 0:
         objects = objects.filter(section=Section.objects.get(id=section_id))
 
     search_term = {
-        'eventName': event_name,
         'task': task,
-        'assignee': assignee,
         'state': state,
         'sectionId': section_id,
     }
@@ -140,11 +144,13 @@ def search(request):
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def sections(request):
     return render(request, "section.html", {'sections': Section.objects.all()})
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def add_edit_section(request, id=0):
     if request.method == 'GET':
         form = SectionForm()
@@ -173,8 +179,6 @@ def add_edit_section(request, id=0):
             event = form.cleaned_data['event']
             event_due = form.cleaned_data['event_due']
             agency = form.cleaned_data['agency']
-            print ('due')
-            print (event_due)
 
             if id > 0:
                 section = Section.objects.get(id=id)
@@ -199,6 +203,7 @@ def add_edit_section(request, id=0):
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def add_edit_goal(request, id=0):
     if request.method == "POST":
         amount = request.POST.get("amount", "")
@@ -232,12 +237,14 @@ def add_edit_goal(request, id=0):
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def delete_section(request, id):
     Section.objects.get(id=id).delete()
     return redirect('/sections')
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def users(request):
     return render(request, "users.html", {
         'user_profiles': UserProfile.objects.all(),
@@ -246,6 +253,7 @@ def users(request):
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def goals(request):
     return render(request, "goals.html", { 'goals': FundraisingGoal.objects.all() })
 
@@ -336,7 +344,6 @@ def sign_up(request):
     }
     return render(request, 'signup.html', context)
 
-
 def activate(request):
     try:
         email = request.GET['email']
@@ -353,6 +360,7 @@ def activate(request):
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def set_user_section(request):
     userId = request.POST['userId']
     userSection = request.POST['userSection']
@@ -375,6 +383,7 @@ def set_user_section(request):
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def set_user_role(request):
     userId = request.POST['userId']
     isInstructor = request.POST['userRole']
@@ -416,7 +425,7 @@ def create_test_users():
         )
         user.set_password('password')
         user.save()
-        profile = UserProfile(name='Student ' + str(num), user=user, is_instructor=True)
+        profile = UserProfile(name='Instructor ', user=user, is_instructor=True)
         profile.save()
     except Exception:
         pass
@@ -446,6 +455,7 @@ def change_password(request):
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def activate_user(request, id):
     user = UserProfile.objects.get(id=id).user
     user.is_active = True
@@ -454,7 +464,17 @@ def activate_user(request, id):
     return redirect('/users')
 
 
+def assignees(request):
+    sectionId = request.GET.get('sectionId')
+    print (sectionId)
+    assignees = UserProfile.objects.filter(section_id=sectionId, is_instructor=False)
+    for assignee in assignees:
+        print (assignee.name)
+    return render(request, 'assigneedropdown.html', {'assignees': assignees})
+
+
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def deactivate_user(request, id):
     user = UserProfile.objects.get(id=id).user
     user.is_active = False
@@ -464,6 +484,7 @@ def deactivate_user(request, id):
 
 
 @login_required
+@user_passes_test(is_admin, HOME_PATH)
 def delete_user(request, id):
     profile = UserProfile.objects.get(id=id)
     user = profile.user
