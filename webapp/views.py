@@ -83,6 +83,8 @@ def add_edit_task(request, id=0):
             section = request.user.profile.section
 
         assignee = UserProfile.objects.get(id=assigneeId).user if assigneeId > 0 else None
+        if assignee is not None and status == "Unassigned":
+            status = "Assigned"
 
         if id > 0:
             task = Task.objects.get(id=id)
