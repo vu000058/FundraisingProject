@@ -16,32 +16,45 @@
           {% csrf_token %}
     <div class="card">
         <div class="container-fluid mt-3">
-            <div class="form-group">
-            <label class="font-weight-bold">Event Type</label>
-            <div>
-                <label class="font-weight-bold">
-                    <input type="radio" name="type" value="Donation" checked> Donation
-                </label>
-                <label class="font-weight-bold ml-5">
-                    <input type="radio" name="type" value="Deduction"> Deduction
-                </label>
-            </div>
-        </div>
+            <div class="form-row mt-3">
+                <div class="col">
+                    <label class="font-weight-bold">Type</label>
+                    <div>
+                        <label class="font-weight-bold">
+                            <input type="radio" name="type" value="Donation" checked> Donation
+                        </label>
+                        <label class="font-weight-bold ml-5">
+                            <input type="radio" name="type" value="Deduction"> Deduction
+                        </label>
+                    </div>
+                </div>
+                 <div class="col">
+                  <label class="font-weight-bold">Amount</label>
+                  <div class="col-sm-6">
+                      <input type="number" name="amount" class="form-control" required/>
+                  </div>
+                </div>
+                <div class="col">
+                </div>
+              </div>
 
-            <div class="form-group">
-                <label class="font-weight-bold">Event Name</label>
+            <div class="form-row mt-3">
+                <div class="col">
+                    <label class="font-weight-bold">Event Name</label>
                 <input type="text" name="eventName" class="form-control" required />
+                </div>
+                 <div class="col">
+                </div>
             </div>
-            <div class="form-group">
-                <label class="font-weight-bold">Description</label>
-                <textarea name="description" class="form-control" row="3" ></textarea>
+            <div class="form-row mt-3 mb-5">
+                <div class="col">
+                  <label class="font-weight-bold">Description</label>
+                    <textarea name="description" class="form-control" row="3" ></textarea>
+                </div>
+                 <div class="col">
+                </div>
             </div>
 
-
-          <div class="form-group">
-            <label class="font-weight-bold">Amount</label>
-              <input type="number" name="amount" class="form-control" required/>
-        </div>
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">Update progress</button>

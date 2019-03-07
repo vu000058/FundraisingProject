@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+    <style>
+        .btn-link{
+          border:none;
+          outline:none;
+          background:none;
+          cursor:pointer;
+          color:#0000EE;
+          padding:0;
+        }
+    </style>
     <div>
        <h3>Sections - Events</h3>
         <hr/>
@@ -21,7 +30,15 @@
               </tr>
                 {% for section in sections %}
                     <tr>
-                        <td>{{section}}</td>
+                        <td>
+                            <form action="/search/" method="post">
+                                 {% csrf_token %}
+                              <button type="submit" name="sectionId" value="{{section.id}}" class="btn-link">
+                                  {{section}}
+                              </button>
+                            </form>
+
+                        </td>
                         <td>{{section.event}}</td>
                         <td>{{section.event_due}}</td>
                         <td>{{section.agency}}</td>

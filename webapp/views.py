@@ -93,19 +93,31 @@ def add_edit_task(request, id=0):
 #search function for when you want to search by event name, task, assignee, duedate etc
 @login_required
 def search(request):
-    event_name = request.POST.get("eventName").strip()
-    task = request.POST.get("task").strip()
-    assignee = request.POST.get("assignee").strip()
-    state = request.POST.get("status").strip()
+    event_name = request.POST.get("eventName")
+    task = request.POST.get("task")
+    assignee = request.POST.get("assignee")
+    state = request.POST.get("status")
     section_id = int(request.POST.get("sectionId"))
 
     objects = Task.objects.all()
     if event_name:
+        event_name = event_name.strip()
         objects = objects.filter(event__icontains=event_name)
+    else:
+        event_name = ''
+
     if task:
+        task = task.strip()
         objects = objects.filter(name__icontains=task)
+    else:
+        task = ''
+
     if assignee:
+        assignee = assignee.strip()
         objects = objects.filter(assignee__icontains=assignee)
+    else:
+        assignee = ''
+
     if state:
         objects = objects.filter(status=state)
     if int(section_id) > 0:
