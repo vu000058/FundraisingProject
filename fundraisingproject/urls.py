@@ -1,4 +1,4 @@
-"""mytasks URL Configuration
+"""fundraisingproject URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/dev/topics/http/urls/
@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from tasksapp import views
+from webapp import views
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
@@ -42,5 +42,6 @@ urlpatterns = [
     path('set_user_section/', views.set_user_section, name='set_user_section'),
     path('set_user_role/', views.set_user_role, name='set_user_role'),
     path('delete_event/<int:id>', views.delete_event, name='delete_event'),
-    path('change_password/', views.change_password, name='change_password')
+    path('change_password/', views.change_password, name='change_password'),
+    path('add_edit_section/<int:id>', views.add_edit_section, name='add_edit_section')
 ]

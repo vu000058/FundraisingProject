@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from tasksapp.models import Task, Section, UserProfile, FundraisingGoal, DonationDeduction
+from webapp.models import Task, Section, UserProfile, FundraisingGoal, Donation
 from django.utils import timezone
 from django.shortcuts import redirect
 from .forms import SectionForm, RegistrationForm, ChangePasswordForm
@@ -49,7 +49,7 @@ def add_edit_task(request, id=0):
         sections = Section.objects.all()
         users = User.objects.all()
         print(task.__dict__)
-        return render(request, "update.html", {
+        return render(request, "addedittask.html", {
             'task': task,
             'sections': sections,
             'users': users,
@@ -126,9 +126,17 @@ def search(request):
 
 @login_required
 def sections(request):
+    return render(request, "section.html", {'sections': Section.objects.all()})
+
+
+@login_required
+def add_edit_section(request, id=0):
     if request.method == 'GET':
         section = SectionForm()
-        return render(request, "section.html", {'sections': Section.objects.all(), 'form': section})
+        if id > 0:
+            section = Section.objects.get(id=id)
+
+        return render(request, "addeditsection.html", {'form': section, 'sectionId': id})
     elif request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = SectionForm(request.POST)
@@ -139,14 +147,24 @@ def sections(request):
             year = form.cleaned_data['year']
             event = form.cleaned_data['event']
             agency = form.cleaned_data['agency']
-            section = Section(
-                name=name,
-                term=term,
-                year=year,
-                event=event,
-                agency=agency
-            )
+
+            if id > 0:
+                section = Section.objects.get(id=id)
+                section.name = name
+                section.term = term
+                section.year = year
+                section.event = event
+                section.agency = agency
+            else:
+                section = Section(
+                    name=name,
+                    term=term,
+                    year=year,
+                    event=event,
+                    agency=agency
+                )
             section.save()
+
         return redirect('/sections')
 
 
@@ -184,7 +202,7 @@ def goal_details(request, id):
     goal = FundraisingGoal.objects.get(id=id)
 
     if request.method == 'GET':
-        events = DonationDeduction.objects.filter(goal=goal)
+        events = Donation.objects.filter(goal=goal)
         total_raised = 0
         for event in events:
             total_raised += event.raised_amount
@@ -207,7 +225,7 @@ def goal_details(request, id):
             raised_amount = 0
             deducted_amount = amount
 
-        event = DonationDeduction(
+        event = Donation(
             goal=goal,
             name=event_name,
             description=event_description,
@@ -220,7 +238,7 @@ def goal_details(request, id):
 
 
 def delete_event(request, id):
-    event = DonationDeduction.objects.get(id=id)
+    event = Donation.objects.get(id=id)
     goal_id = event.goal.id
     event.delete()
 

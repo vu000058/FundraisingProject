@@ -18,7 +18,7 @@ def getTotalFunds(events) :
 	for x in events:
 		total=total + float(x.eventAmount);
 	return total;
-#same idea as the tasksapp db views.py file. has info for the fundraiser
+#same idea as the webapp db views.py file. has info for the fundraiser
 def index(request):
 	if request.method == 'GET':
 		objects = Event.objects.all().order_by('eventCreated')

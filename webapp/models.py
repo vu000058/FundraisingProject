@@ -39,7 +39,7 @@ class FundraisingGoal(models.Model):
     note = models.CharField(max_length=500)
 
 
-class DonationDeduction(models.Model):
+class Donation(models.Model):
     goal = models.ForeignKey(FundraisingGoal, related_name='events', on_delete=models.CASCADE)
     event_name = models.CharField(max_length=150)
     description = models.CharField(max_length=500, null=True)

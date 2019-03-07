@@ -1,62 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        <h3>Create Section</h3>
-        <hr/>
-
-        <div class="container">
-          <form action="/sections/" method="post">
-            {% csrf_token %}
-
-              <div class="form-row">
-                <div class="col">
-                  <label for="section">Section Name</label>
-                  <div class="col-sm-10">
-                    {{ form.name }}
-                  </div>
-                </div>
-                <div class="col">
-                  <label for="term">Term</label>
-                  <div class="col-sm-10">
-                       {{ form.term }}
-                  </div>
-                </div>
-                  <div class="col">
-                  <label for="year">Year</label>
-                  <div class="col-sm-10">
-                       {{ form.year }}
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row mt-5">
-                <div class="col">
-                  <label for="event">Event</label>
-                  <div class="col-sm-10">
-                    {{ form.event }}
-                  </div>
-                </div>
-                <div class="col">
-                  <label for="agency">Agency</label>
-                  <div class="col-sm-10">
-                       {{ form.agency }}
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-row mt-5">
-                  <button type="submit" class="btn btn-primary">Add Section</button>
-              </div>
-          </form>
-        </div>
-    </div>
 
 
     <div class="mt-5">
        <h3>Sections</h3>
         <hr/>
         <div class="container">
+            <div>
+                <a href="{% url 'add_edit_section' 0 %}" class="btn btn-primary">
+                    Add Section
+                </a>
+
+            </div>
             <table id="tasks" class="table">
               <tr>
                   <th scope="col">Section</th>
@@ -70,6 +26,8 @@
                         <td>{{section.event}}</td>
                         <td>{{section.agency}}</td>
                       <td>
+                          <a href="{% url 'add_edit_section' section.id %}" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></a>
+
                           <button type="button" class="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal"
                                 data-id="{{ section.id }}" data-name="{{ section }}">
                             <i class="fas fa-trash-alt"></i>
