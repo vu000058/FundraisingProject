@@ -29,7 +29,6 @@ urlpatterns = [
     path('search/', views.search, name='searchTask'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('accounts.urls')),
-    path('fundraiser/', include('fundraiser.urls')),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('sections/', views.sections, name='sections'),
     path('delete_section/<int:id>', views.delete_section, name='delete_section'),
