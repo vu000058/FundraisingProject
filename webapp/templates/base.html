@@ -83,6 +83,23 @@
       <ul class="navbar-nav px-3">
 
       </ul>
+        <div class="dropdown" style="min-width: 185px;">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             {{ request.user.username }} <i class="fas fa-user"></i>
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+            <a class="dropdown-item" href="{% url 'change_password' %}">
+              <i class="fas fa-key"></i>
+              Change Password <span class="sr-only"></span>
+            </a>
+
+            <a class="dropdown-item" href="{% url 'logout' %}">
+              <i class="fas fa-sign-out-alt"></i>
+              Logout <span class="sr-only"></span>
+            </a>
+          </div>
+        </div>
     </nav>
 
     <div class="container-fluid">
@@ -92,7 +109,12 @@
             <ul class="nav flex-column" id="left-nav">
                   <li class="nav-item">
                     <h5 class="nav-link">
-                      User: {{ user.username }} <span class="sr-only"></span>
+                      <span class="sr-only" style="height: 100px;"></span>
+                    </h5>
+                  </li>
+                <li class="nav-item">
+                    <h5 class="nav-link">
+                      <span class="sr-only" style="height: 100px;"></span>
                     </h5>
                   </li>
 
@@ -136,22 +158,6 @@
                       </li>
                     {% endif %}
                 {% endif %}
-
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'change_password' %}">
-                      <i class="fas fa-key"></i>
-                      Change Password <span class="sr-only"></span>
-                    </a>
-                  </li>
-
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">
-                      <i class="fas fa-sign-out-alt"></i>
-                      Logout <span class="sr-only"></span>
-                    </a>
-                  </li>
-
 
                 </ul>
             </div>
