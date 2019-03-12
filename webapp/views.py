@@ -26,6 +26,12 @@ def is_admin(user):
 
 @login_required
 def index(request):
+    """
+    This method handles the display in the index.page. If login as an instructor, the section and all tasks will be shown.
+    If login as a student, the section wont be displayed. Only tasks assigned to the student's section will be displayed.
+    :param request:
+    :return:
+    """
     if request.method == 'GET':
         if request.user.is_superuser or request.user.profile and request.user.profile.is_instructor:
             tasks = Task.objects.all().order_by('due_date')
@@ -45,6 +51,12 @@ def index(request):
 
 @login_required
 def delete_task(request, id):
+    """
+    This is handeling the delete task button related functions.
+    :param request:
+    :param id:
+    :return:
+    """
     Task.objects.get(id=id).delete()
     return redirect('/')
 
