@@ -1,7 +1,7 @@
 from django.test import TestCase
 from webapp.models import Task
-from webapp.views import update
-from webapp.views import delete
+from webapp.views import add_edit_task
+from webapp.views import delete_task
 from webapp.views import search
 from django.utils import timezone
 from django.http import HttpRequest
@@ -27,13 +27,13 @@ class TaskTestCase(TestCase):
         request.POST["eventName"] = "Old age people event"
         request.POST["task"] = "decorate their houses"
         request.POST["duedate"] = "2018-12-31"
-        update(request, task.id)
+        add_edit_task(request, task.id)
         self.assertEqual(task.name, "Decorate Hall")
 
     def test_delete_task(self):
         task = Task.objects.get(event="General Event")
         self.assertEqual(len(Task.objects.all()), 2)
-        delete(request=None, taskId=task.id)
+        delete_task(request=None, taskId=task.id)
         self.assertEqual(len(Task.objects.all()), 1)
 
 
