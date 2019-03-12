@@ -1,0 +1,19 @@
+{% extends 'anonymousbase.html' %}
+{% block content %}
+	<div class="container">
+		<h3>You have signed up successfully.</h3>
+        <h3>A confirmation email has been sent to your email.</h3>
+        <h3>Please click on the link in the email to activate your account.</h3>
+		<h4>
+			<a class="nav-link" href="{% url 'login' %}">
+			  <i class="fas fa-sign-out-alt"></i>
+			  Login <span class="sr-only"></span>
+			</a>
+		</h4>
+	</div>
+{% endblock %}
+
+
+
+
+

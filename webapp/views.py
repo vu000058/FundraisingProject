@@ -325,7 +325,7 @@ def sign_up(request):
             user = User(
                 username=username,
                 email=email,
-                is_active=True,
+                is_active=False,
                 is_staff=True
             )
             user.set_password(password)
@@ -344,6 +344,8 @@ def sign_up(request):
                 message.send()
             except Exception:
                 pass
+
+            return render(request, 'signupsuccess.html')
     else:
         form = RegistrationForm()
     context = {
