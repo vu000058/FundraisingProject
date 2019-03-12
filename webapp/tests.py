@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.http import HttpRequest
 from django.test import SimpleTestCase
 
-
+# Test cases for the tasks (Team IO)
 # Create your tests here.
 
 class TaskTestCase(TestCase):
@@ -51,7 +51,11 @@ class IndexTests(SimpleTestCase):
         self.assertNotContains(
             response, 'Hi there! I should not be on the page.')
 
-
+class test_urls():
+    """
+    This is the test case for url mapping patterns.
+    Updated: Yang Luo
+    """
 
 # #Test Models
 #
