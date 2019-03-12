@@ -11,13 +11,14 @@
 
     <h3>Tasks</h3>
     <hr/>
-
+    <!-- Create a new task, calling the views.add task. Updated: Yang Luo-->
     <a href="/addedit/0" class="btn btn-primary mb-3">Add Task</a>
 
     <form action="/search/" method="post" >
         {% csrf_token %}
 
         <div class="row" >
+                <!-- Check if the user is a professor(Super) or a student(regular), Calling index in views.py Updated: Yang Luo-->
             {% if request.user.is_superuser or request.user.profile.is_instructor %}
             <div class="col-md">
               <div class="form-group">
