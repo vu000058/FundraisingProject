@@ -116,6 +116,13 @@ def add_edit_task(request, id=0):
 #search function for when you want to search by event name, task, assignee, duedate etc
 @login_required
 def search(request):
+    """
+    This is the Search function that will list the tasks on the index page by tasknames, status or sections,
+    If the login is a professor, the section will be displayed, and all tasks will be listed on the index page.
+    If the role is a student, on the tasks that assigned to the section will be listed.
+    :param request:
+    :return:
+    """
     task = request.POST.get("task")
     state = request.POST.get("status")
     section_id = int(request.POST.get("sectionId", "0"))
