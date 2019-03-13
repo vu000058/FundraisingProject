@@ -57,7 +57,15 @@ def delete_task(request, id):
     :param id:
     :return:
     """
-    Task.objects.get(id=id).delete()
+    task = Task.objects.get(id=id)
+    task_name = task.name
+
+    messages.add_message(
+        request,
+        messages.SUCCESS,
+        "Deleted task %s successfully" % task_name
+    )
+
     return redirect('/')
 
 @login_required
@@ -267,7 +275,16 @@ def add_edit_goal(request, id=0):
 @login_required
 @user_passes_test(is_admin, HOME_PATH)
 def delete_section(request, id):
-    Section.objects.get(id=id).delete()
+    section = Section.objects.get(id=id)
+    section_name = str(section)
+    section.delete()
+
+    messages.add_message(
+        request,
+        messages.SUCCESS,
+        "Deleted section %s successfully" % section_name
+    )
+
     return redirect('/sections')
 
 

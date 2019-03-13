@@ -42,10 +42,10 @@ class SectionForm(forms.Form):
             visible.field.widget.attrs['class'] = 'form-control'
 
 class RegistrationForm(forms.Form):
-    email = forms.EmailField()
-    name = forms.CharField(widget=forms.TextInput())
-    password = forms.CharField(widget=forms.PasswordInput())
-    confirm_password = forms.CharField(widget=forms.PasswordInput())
+    email = forms.EmailField(required=True)
+    name = forms.CharField(widget=forms.TextInput(), required=True)
+    password = forms.CharField(widget=forms.PasswordInput(), required=True)
+    confirm_password = forms.CharField(widget=forms.PasswordInput(), required=True)
 
 
     def __init__(self, *args, **kwargs):
@@ -62,6 +62,12 @@ class RegistrationForm(forms.Form):
 
         password = self.cleaned_data.get('password')
         confirm_password = self.cleaned_data.get('confirm_password')
+
+        if password.strip() == '' or confirm_password.strip() == '':
+            raise forms.ValidationError({
+                'password': 'Passwords can not be empty'
+            })
+
         if confirm_password != password:
             raise forms.ValidationError({
                 'password': 'Passwords mismatched'
@@ -100,5 +106,3 @@ class ChangePasswordForm(forms.Form):
 
         if new_password != confirm_password:
             raise forms.ValidationError("New passwords do not match.")
-
-

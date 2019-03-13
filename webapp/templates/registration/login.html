@@ -30,6 +30,23 @@
 <div class="container" >
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
+			{% if form.errors %}
+                  {% for field in form %}
+                      {% for error in field.errors %}
+                          <div class="alert alert-danger">
+                              <strong>{{ field.label_tag }} {{ error|escape }} </strong>
+                          </div>
+                      {% endfor %}
+                  {% endfor %}
+                  {% for error in form.non_field_errors %}
+                      <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+						  <strong>
+							  <p>Your account also need to be activated.</p>
+						  </strong>
+                      </div>
+                  {% endfor %}
+              {% endif %}
 			<div class="card-header">
 				<h3>Sign In</h3>
 
