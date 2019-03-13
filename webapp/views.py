@@ -91,6 +91,7 @@ def add_edit_task(request, id=0):
 
         if is_admin(request.user):
             section = Section.objects.get(id=request.POST.get("section"))
+
         else:
             section = request.user.profile.section
 
@@ -105,6 +106,7 @@ def add_edit_task(request, id=0):
             task.assignee = assignee
             task.due_date = due_date
             task.status = status
+            task.section = section
             task.delegator = delegator
             task.update_date = timezone.now()
             task.save()
