@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import user_passes_test
 import uuid
 
 
-task_statuses = ["Unassigned", "Assigned", "Ongoing", "On Hold", "Cancelled", "Finished"]
+task_statuses = ["Ongoing", "Unassigned", "Assigned","On Hold", "Cancelled", "Finished"]
 # request where the parts of the database from models.py are used
 #first if for the GET that orders all the tasks by due date, default page
 #elif has the POST where it creates the user input and stores it in the db
