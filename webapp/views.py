@@ -518,9 +518,14 @@ def deactivate_user(request, id):
 def delete_user(request, id):
     profile = UserProfile.objects.get(id=id)
     user = profile.user
+    username = profile.user.username
     profile.delete()
     user.delete()
-
+    messages.add_message(
+        request,
+        messages.SUCCESS,
+        "Deleted user %s successfully" % username
+    )
     return redirect('/users')
 
 
