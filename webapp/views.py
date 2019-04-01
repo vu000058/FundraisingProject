@@ -307,6 +307,10 @@ def goals(request):
 def goal_details(request, id):
     goal = FundraisingGoal.objects.get(id=id)
 
+    if not is_admin(request.user):
+        if request.user.profile.section != goal.section:
+            return redirect("/")
+
     if request.method == 'GET':
         events = Donation.objects.filter(goal=goal)
         total_raised = 0
@@ -320,7 +324,7 @@ def goal_details(request, id):
             'totalRaised': total_raised
         })
     elif request.method == 'POST':
-        event_name = request.POST.get("eventName", "")
+        task_name = request.POST.get("taskName", "")
         event_description = request.POST.get("description", "")
         amount = request.POST.get("amount", "")
         type = request.POST.get("type", "")
@@ -334,7 +338,7 @@ def goal_details(request, id):
 
         event = Donation(
             goal=goal,
-            event_name=event_name,
+            task_name=task_name,
             description=event_description,
             raised_amount=raised_amount,
             deducted_amount=deducted_amount
@@ -437,8 +441,9 @@ def set_user_role(request):
     is_instructor = True if isInstructor == "true" else False
 
     profile = UserProfile.objects.get(id=userId)
-    profile.is_instructor = is_instructor
-    profile.save()
+    if profile.user.username != 'admin':
+        profile.is_instructor = is_instructor
+        profile.save()
 
     messages.add_message(
         request,
@@ -447,35 +452,6 @@ def set_user_role(request):
     )
 
     return redirect('/users')
-
-
-def create_test_users():
-    for num in range(1, 5):
-        try:
-            user = User(
-                username='student' + str(num),
-                is_staff=True,
-                is_active=True
-            )
-            user.set_password('password')
-            user.save()
-            profile = UserProfile(name='Student ' + str(num), user=user)
-            profile.save()
-        except Exception:
-            pass
-
-    try:
-        user = User(
-            username='instructor',
-            is_staff=True,
-            is_active=True
-        )
-        user.set_password('password')
-        user.save()
-        profile = UserProfile(name='Instructor ', user=user, is_instructor=True)
-        profile.save()
-    except Exception:
-        pass
 
 
 @login_required
@@ -524,8 +500,9 @@ def assignees(request):
 @user_passes_test(is_admin, HOME_PATH)
 def deactivate_user(request, id):
     user = UserProfile.objects.get(id=id).user
-    user.is_active = False
-    user.save()
+    if user.username != 'admin':
+        user.is_active = False
+        user.save()
 
     return redirect('/users')
 
@@ -536,13 +513,17 @@ def delete_user(request, id):
     profile = UserProfile.objects.get(id=id)
     user = profile.user
     username = profile.user.username
-    profile.delete()
-    user.delete()
+
+    if username != 'admin':
+        profile.delete()
+        user.delete()
+
     messages.add_message(
         request,
         messages.SUCCESS,
         "Deleted user %s successfully" % username
     )
+
     return redirect('/users')
 
 
@@ -554,7 +535,45 @@ def delete_goal(request, id):
 
     return redirect('/goals')
 
+# def create_test_users():
+#     for num in range(1, 5):
+#         try:
+#             user = User(
+#                 username='student' + str(num),
+#                 is_staff=True,
+#                 is_active=True
+#             )
+#             user.set_password('password')
+#             user.save()
+#             profile = UserProfile(name='Student ' + str(num), user=user)
+#             profile.save()
+#         except Exception:
+#             pass
+#
+#     try:
+#         user = User(
+#             username='instructor',
+#             is_staff=True,
+#             is_active=True
+#         )
+#         user.set_password('password')
+#         user.save()
+#         profile = UserProfile(name='Instructor ', user=user, is_instructor=True)
+#         profile.save()
+#     except Exception:
+#         pass
+# create_test_users()
 
-create_test_users()
+def create_admin_user():
+    try:
+        user = User(username='admin', is_staff=True, is_active=True)
+        user.set_password('password')
+        user.save()
+        profile = UserProfile(name='Admin', user=user, is_instructor=True)
+        profile.save()
+    except Exception:
+        pass
+
+create_admin_user()
 
 

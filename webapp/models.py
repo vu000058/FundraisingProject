@@ -42,7 +42,7 @@ class FundraisingGoal(models.Model):
 
 class Donation(models.Model):
     goal = models.ForeignKey(FundraisingGoal, related_name='events', on_delete=models.CASCADE)
-    event_name = models.CharField(max_length=150)
+    task_name = models.CharField(max_length=150)
     description = models.CharField(max_length=500, null=True)
     raised_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     deducted_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)

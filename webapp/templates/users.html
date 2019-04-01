@@ -23,6 +23,7 @@
           <td>{{profile.user.username}}</td>
             <td>{{profile.user.email}}</td>
             <td>
+                {% if not profile.is_instructor %}
                 <form action="{% url 'set_user_section' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="userId" value="{{ profile.id }}" />
@@ -41,8 +42,10 @@
                           {% endfor %}
                     </select>
                 </form>
+                {% endif %}
             </td>
             <td>
+                {% if profile.user.username != 'admin' %}
                 <form action="{% url 'set_user_role' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="userId" value="{{ profile.id }}" />
@@ -59,6 +62,9 @@
                         >Student</option>
                     </select>
                 </form>
+                {% else %}
+                    Admin
+                {% endif %}
             </td>
             <td>
                 {% if profile.user.is_active %}
@@ -72,6 +78,7 @@
                   {% endif %}
             </td>
               <td>
+                  {% if profile.user.username != 'admin' %}
                   <div style="display: inline-flex;">
                       {% if profile.user.is_active %}
                       <form action="{% url 'deactivate_user' profile.id %}">
@@ -92,7 +99,7 @@
                     <i class="fas fa-trash-alt"></i>
                   </button>
                   </div>
-
+                {% endif %}
               </td>
         </tr>
         {% endfor %}

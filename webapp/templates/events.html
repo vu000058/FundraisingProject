@@ -40,8 +40,8 @@
 
             <div class="form-row mt-3">
                 <div class="col">
-                    <label class="font-weight-bold">Event Name</label>
-                <input type="text" name="eventName" class="form-control" required />
+                    <label class="font-weight-bold">Task Name</label>
+                <input type="text" name="taskName" class="form-control" required />
                 </div>
                  <div class="col">
                 </div>
@@ -69,7 +69,7 @@
  <table class="table" id="events">
       <tr>
           <thead>
-            <th scope="col">Event Name</th>
+            <th scope="col">Task Name</th>
             <th scope="col">Description</th>
             <th scope="col">Raised Amount</th>
             <th scope="col">Deducted Amount</th>
@@ -80,7 +80,7 @@
          {% if events and events|length > 0 %}
                 {% for event in events %}
                 <tr>
-                  <td>{{event.event_name}}</td>
+                  <td>{{event.task_name}}</td>
                   <td>{{event.description}}</td>
                     <td>
                         {% if event.raised_amount == 0 %}
