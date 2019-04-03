@@ -90,9 +90,9 @@
                   <div class="col-sm-10">
 
                       {% if task.description %}
-                         <textarea  class="form-control" name="desc" id="desc">{{ task.description }}</textarea>
+                         <textarea  class="form-control" name="desc" id="desc" maxlength="200">{{ task.description }}</textarea>
                       {% else %}
-                       <textarea  class="form-control" name="desc" id="desc"></textarea>
+                       <textarea  class="form-control" name="desc" id="desc" maxlength="200"></textarea>
                       {% endif%}
 
                   </div>
