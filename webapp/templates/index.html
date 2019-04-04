@@ -124,7 +124,7 @@
                  <a href="{% url 'addEditTask' task.id %}" class="btn btn-info" title="Edit"><i class="fas fa-edit"></i></a>
               {% endif %}
                     <!-- Only professor(Super) user can delete tasks, calling the views.delete task. Updated: Yang Luo-->
-              {% if request.user.is_superuser or request.user.profile and request.user.profile.is_instructor or task.creator == request.user %}
+              {% if request.user.is_superuser or request.user.profile and request.user.profile.is_instructor %}
                 <button type="button" class="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal"
                         data-id="{{ task.id }}" data-name="{{ task.name }}">
                     <i class="fas fa-trash-alt"></i>
