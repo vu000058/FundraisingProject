@@ -81,7 +81,7 @@
                 {% for event in events %}
                 <tr>
                   <td>{{event.task_name}}</td>
-                  <td>{{event.description}}</td>
+                  <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px;">{{event.description}}</td>
                     <td>
                         {% if event.raised_amount == 0 %}
                              N/A

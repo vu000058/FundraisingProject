@@ -85,7 +85,10 @@
       </ul>
         <div class="dropdown" style="min-width: 185px;">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-             {{ request.user.username }} <i class="fas fa-user"></i>
+            {% if request.user.profile %}
+              {{ request.user.profile.name }} -
+              {% endif %}
+              {{ request.user.username }} <i class="fas fa-user"></i>
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 

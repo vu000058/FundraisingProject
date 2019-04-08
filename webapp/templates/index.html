@@ -96,7 +96,7 @@
                       data-description="{{ task.description }}">
                   {{task.name}}</a>
             </td>
-          <td>{{task.assignee}}</td>
+          <td>{{task.assignee.profile.name}}</td>
                 <!-- Display different color based on the task status. Updated: Yang Luo-->
           <td>
               {% if task.status == "Unassigned" %}
