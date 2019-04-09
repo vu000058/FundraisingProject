@@ -59,6 +59,7 @@ def delete_task(request, id):
     """
     task = Task.objects.get(id=id)
     task_name = task.name
+    task.delete()
 
     messages.add_message(
         request,
